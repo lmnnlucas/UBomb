@@ -1,8 +1,11 @@
 package fr.ubx.poo.ubomb.game;
 
 import fr.ubx.poo.ubomb.go.GameObject;
+import fr.ubx.poo.ubomb.go.character.Monster;
 import fr.ubx.poo.ubomb.go.character.Player;
+import fr.ubx.poo.ubomb.launcher.MapLevel;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -10,6 +13,7 @@ public class Game {
 
     private final Configuration configuration;
     private final Player player;
+
     private final Grid grid;
 
     public Game(Configuration configuration, Grid grid) {
