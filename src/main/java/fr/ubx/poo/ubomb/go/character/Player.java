@@ -66,7 +66,7 @@ public class Player extends GameObject implements Movable, TakeVisitor {
         boolean isDecor = next instanceof Decor;
         boolean isBonus = next instanceof Bonus;
 
-        System.out.println(nextPos);
+
         if (nextPos.x() > game.grid().width()-1 || nextPos.x() < 0) {
             return false;
         } else if (nextPos.y() > game.grid().height()-1 || nextPos.y() < 0) {
