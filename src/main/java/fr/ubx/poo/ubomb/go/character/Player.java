@@ -4,6 +4,7 @@
 
 package fr.ubx.poo.ubomb.go.character;
 
+import fr.ubx.poo.ubomb.engine.StatusBar;
 import fr.ubx.poo.ubomb.engine.Timer;
 import fr.ubx.poo.ubomb.game.Direction;
 import fr.ubx.poo.ubomb.game.Game;
@@ -64,6 +65,13 @@ public class Player extends GameObject implements Movable, TakeVisitor {
         GameObject next = game.grid().get(nextPos);
         boolean isDecor = next instanceof Decor;
         boolean isBonus = next instanceof Bonus;
+
+        System.out.println(nextPos);
+        if (nextPos.x() > game.grid().width()-1 || nextPos.x() < 0) {
+            return false;
+        } else if (nextPos.y() > game.grid().height()-1 || nextPos.y() < 0) {
+            return false;
+        }
         if(isBonus) {
             return true;
         } else {
