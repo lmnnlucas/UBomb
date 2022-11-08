@@ -8,8 +8,11 @@ import fr.ubx.poo.ubomb.go.Movable;
 
 public class Monster extends GameObject implements Movable {
 
+    private Direction direction;
+
     public Monster(Game game, Position position) {
         super(game, position);
+        direction = Direction.DOWN;
     }
 
     @Override
@@ -25,5 +28,9 @@ public class Monster extends GameObject implements Movable {
     @Override
     public boolean walkableBy(Player player) {
         return super.walkableBy(player);
+    }
+
+    public Direction getDirection() {
+        return direction;
     }
 }
