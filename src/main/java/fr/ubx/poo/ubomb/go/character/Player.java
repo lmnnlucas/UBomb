@@ -11,6 +11,7 @@ import fr.ubx.poo.ubomb.game.Position;
 import fr.ubx.poo.ubomb.go.GameObject;
 import fr.ubx.poo.ubomb.go.Movable;
 import fr.ubx.poo.ubomb.go.TakeVisitor;
+import fr.ubx.poo.ubomb.go.decor.Decor;
 import fr.ubx.poo.ubomb.go.decor.bonus.*;
 
 public class Player extends GameObject implements Movable, TakeVisitor {
@@ -59,8 +60,15 @@ public class Player extends GameObject implements Movable, TakeVisitor {
     }
 
     public final boolean canMove(Direction direction) {
-        // Need to be updated ;-)
-        return true;
+        Position nextPos = direction.nextPosition(getPosition());
+        GameObject next = game.grid().get(nextPos);
+        boolean isDecor = next instanceof Decor;
+        boolean isBonus = next instanceof Bonus;
+        if(isBonus) {
+            return true;
+        } else {
+            return !isDecor;
+        }
     }
 
     public void update(long now) {
