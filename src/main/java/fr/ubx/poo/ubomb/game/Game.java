@@ -13,13 +13,14 @@ public class Game {
 
     private final Configuration configuration;
     private final Player player;
-
+    private final Monster monster;
     private final Grid grid;
 
     public Game(Configuration configuration, Grid grid) {
         this.configuration = configuration;
         this.grid = grid;
         player = new Player(this, configuration.playerPosition());
+        monster = new Monster(this, configuration.monsterPosition());
     }
 
     public Configuration configuration() {
