@@ -77,8 +77,10 @@ public class Player extends GameObject implements Movable, TakeVisitor {
         }
 
         // TODO: Récupérer le monstre
-
-            /*if ((GameObject) entity instanceof Monster monster) {
+        List<GameObject> objectList = game.getGameObjects(nextPos);
+        for (GameObject object : objectList) {
+            System.out.println("Object : " + object.toString());
+            if (object instanceof Monster) {
                 System.out.println("Monstre touché, vie perdue");
                 this.lives--;
                 if (lives == 0) {
@@ -86,8 +88,8 @@ public class Player extends GameObject implements Movable, TakeVisitor {
                 } else {
                     System.out.println("Vies restantes : " + this.getLives());
                 }
-            }*/
-
+            }
+        }
         setPosition(nextPos);
     }
 

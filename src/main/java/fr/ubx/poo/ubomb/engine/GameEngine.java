@@ -36,6 +36,8 @@ public final class GameEngine {
     private static AnimationTimer gameLoop;
     private final Game game;
     private final Player player;
+
+    private final Monster monster;
     private final List<Sprite> sprites = new LinkedList<>();
     private final Set<Sprite> cleanUpSprites = new HashSet<>();
     private final Stage stage;
@@ -47,6 +49,7 @@ public final class GameEngine {
         this.stage = stage;
         this.game = game;
         this.player = game.player();
+        this.monster = game.monster();
         initialize();
         buildAndSetGameLoop();
     }
@@ -78,7 +81,7 @@ public final class GameEngine {
         }
 
         sprites.add(new SpritePlayer(layer, player));
-        sprites.add(new SpriteMonster(layer, new Monster(game,new Position(2,2))));
+        sprites.add(new SpriteMonster(layer, monster));
     }
 
     void buildAndSetGameLoop() {

@@ -32,8 +32,13 @@ public class Game {
         List<GameObject> gos = new LinkedList<>();
         if (player().getPosition().equals(position))
             gos.add(player);
+        if (monster().getPosition().equals(position)) {
+            gos.add(monster);
+        }
         return gos;
     }
+
+    public Monster monster() { return this.monster; }
 
     public Grid grid() {
         return grid;
