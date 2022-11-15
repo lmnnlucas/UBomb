@@ -7,5 +7,5 @@ public interface TakeVisitor {
     // Key
     default void take(Key key) {}
 
-
+    default void take(Hearth hearth) {}
 }
