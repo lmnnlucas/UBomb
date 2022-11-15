@@ -55,7 +55,6 @@ public class Player extends GameObject implements Movable, TakeVisitor {
         setPosition(nextPos);
     }
 
-
     public int getLives() {
         return lives;
     }
