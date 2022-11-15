@@ -8,4 +8,6 @@ public interface TakeVisitor {
     default void take(Key key) {}
 
     default void take(Hearth hearth) {}
+
+    default void take(Princess princess) {}
 }

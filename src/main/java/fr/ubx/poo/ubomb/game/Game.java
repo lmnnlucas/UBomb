@@ -47,6 +47,4 @@ public class Game {
     public Player player() {
         return this.player;
     }
-
-
 }

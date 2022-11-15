@@ -36,7 +36,6 @@ public final class GameEngine {
     private static AnimationTimer gameLoop;
     private final Game game;
     private final Player player;
-
     private final Monster monster;
     private final List<Sprite> sprites = new LinkedList<>();
     private final Set<Sprite> cleanUpSprites = new HashSet<>();
@@ -168,7 +167,10 @@ public final class GameEngine {
 
     private void update(long now) {
         player.update(now);
-
+        if (player.haveWon()){
+            gameLoop.stop();
+            showMessage("You win !", Color.GREEN);
+        }
         if (player.getLives() == 0) {
             gameLoop.stop();
             showMessage("Perdu!", Color.RED);
