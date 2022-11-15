@@ -19,18 +19,30 @@ public class Player extends GameObject implements Movable, TakeVisitor {
 
     private Direction direction;
     private boolean moveRequested = false;
-    private final int lives;
+    private int lives;
+    private int keys;
+    private int bombRange;
+    private int bombBag;
 
     public Player(Game game, Position position) {
         super(game, position);
         this.direction = Direction.DOWN;
         this.lives = game.configuration().playerLives();
+        this.bombRange = 1;
+        this.bombBag = 1;
     }
 
 
     @Override
     public void take(Key key) {
-        System.out.println("Take the key ...");
+        keys++;
+        key.remove();
+    }
+
+    @Override
+    public void take(Hearth hearth) {
+        lives++;
+        hearth.remove();
     }
 
     public void doMove(Direction direction) {
@@ -46,6 +58,18 @@ public class Player extends GameObject implements Movable, TakeVisitor {
 
     public int getLives() {
         return lives;
+    }
+
+    public int getKeys() {
+        return keys;
+    }
+
+    public int getBombBag() {
+        return bombBag;
+    }
+
+    public int getBombRange() {
+        return bombRange;
     }
 
     public Direction getDirection() {
