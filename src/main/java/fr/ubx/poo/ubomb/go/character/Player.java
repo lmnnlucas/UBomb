@@ -119,9 +119,9 @@ public class Player extends GameObject implements Movable, TakeVisitor {
     public final boolean canMove(Direction direction) {
         Position nextPos = direction.nextPosition(getPosition());
         GameObject next = game.grid().get(nextPos);
-        boolean isDecor = next instanceof Decor;
-        boolean isBonus = next instanceof Bonus;
-        boolean isMonster = next instanceof Monster;
+        boolean isDecor = next instanceof Decor; // TODO : A retirer
+        boolean isBonus = next instanceof Bonus; // Visitor pattern ->
+        boolean isMonster = next instanceof Monster; // TODO : A retirer
 
         if (nextPos.x() > game.grid().width() - 1 || nextPos.x() < 0) {
             return false;

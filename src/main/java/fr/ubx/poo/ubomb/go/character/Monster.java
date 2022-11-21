@@ -14,7 +14,7 @@ public class Monster extends GameObject implements Movable {
         super(game, position);
         direction = Direction.DOWN;
     }
-
+    //TODO : Faire une interface pour les monstres et les joueurs
     @Override
     public boolean canMove(Direction direction) {
         return false;
