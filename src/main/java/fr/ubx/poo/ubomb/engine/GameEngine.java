@@ -25,10 +25,7 @@ import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 
 public final class GameEngine {
@@ -36,7 +33,7 @@ public final class GameEngine {
     private static AnimationTimer gameLoop;
     private final Game game;
     private final Player player;
-    private final Monster monster;
+    private final ArrayList<Monster> monsters;
     private final List<Sprite> sprites = new LinkedList<>();
     private final Set<Sprite> cleanUpSprites = new HashSet<>();
     private final Stage stage;
@@ -48,7 +45,7 @@ public final class GameEngine {
         this.stage = stage;
         this.game = game;
         this.player = game.player();
-        this.monster = game.monster();
+        this.monsters = game.monster();
         initialize();
         buildAndSetGameLoop();
     }
@@ -80,7 +77,9 @@ public final class GameEngine {
         }
 
         sprites.add(new SpritePlayer(layer, player));
-        sprites.add(new SpriteMonster(layer, monster));
+        for (Monster monster : monsters){
+            sprites.add(new SpriteMonster(layer, monster));
+        }
     }
 
     void buildAndSetGameLoop() {
