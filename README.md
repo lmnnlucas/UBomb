@@ -100,17 +100,17 @@ Travail à fournir
 
 
 
-## Premiers pas
+## Premiers pas :heavy_check_mark:
 
 Ajouter l'affichage de tous les éléments (caisses, bonus, clés...) ainsi que les monstres et la princesse. Modifier le code pour que les mouvements du joueur soient limités par le cadre de la carte, les éléments de décor et les caisses. 
 Le joueur peut marcher sur une case où se trouve un bonus, une clé, ou un autre personnage. 
 S’il atteint la princesse, la partie se termine par une victoire.
 Si ses points de vie tombent à 0, la partie se termine par une défaite.
 
-## Ajoutons des monstres
+## Ajoutons des monstres :heavy_division_sign:
 Ajouter des monstres. Pour le moment, les monstres ne savent pas marcher, ils ne bougent pas. Faire en sorte que le joueur perde une vie lorsqu'il se trouve sur la même case qu'un monstre.
 
-## Gestion du panneau d’informations
+## Gestion du panneau d’informations :heavy_check_mark:
 
 Le panneau d’information doit afficher le nombre de vies, le nombre de bombes et leur portée, le nombre de clés dans l’inventaire et le numéro de niveau courant.
 
@@ -153,7 +153,7 @@ l’inventaire. Chaque clé peut ouvrir indifféremment n’importe quelle
 porte fermée. Une fois qu'une porte est ouverte, elle le reste pour toute la partie du jeu.
 
 
-## Gestion des bonus et malus
+## Gestion des bonus et malus :heavy_division_sign:
 
 Le joueur ramasse automatiquement un bonus lorsqu'il marche sur la case qui le contient. Les monstres peuvent marcher sur les cases des bonus, mais ne peuvent pas les ramasser. Il existe 5 bonus différents :
 
@@ -169,7 +169,7 @@ Bonus | Effet
 
  Les caisses doivent pouvoir être déplacées par le joueur si rien ne gêne dans le sens de la poussée. Le joueur ne peut déplacer qu'une seule caisse à la fois. Si un bonus ou un monstre se trouve dans la direction de déplacement d’une caisse, la caisse reste bloquée. Le joueur ne peut pas déplacer deux caisses à la fois. Vous pouvez représenter les caisses comme des éléments de décor. Dans ce cas, déplacer une caisse revient à la supprimer et en créer une nouvelle aux bonnes coordonnées.
 
-## Gestion des bombes
+## Gestion des bombes :mag_right:
 
 Lorsque le joueur presse la touche `[ESPACE]`, il dépose une bombe sur
 la case sur laquelle il se trouve, déclenchant une explosion au bout de
@@ -186,15 +186,15 @@ l’inventaire du joueur.
 
 Si le joueur pose une bombe et change ensuite de niveau en franchissant une porte, la bombe doit tout de même exploser au bout de 4 secondes. Les éléments de décor détruits sur un niveau doivent le rester pendant toute la durée de la partie.
 
-## Gestion des vies
+## Gestion des vies :heavy_division_sign:
 
 Le joueur peut perdre une vie s’il se trouve sur une case à portée de l’explosion d’une bombe ou s'il croise un monstre. Si le joueur n’a plus de vie, la partie se termine. Le joueur bénéficie alors d’une temporisation d'une seconde pendant laquelle il est invulnérable.
 
-## Gestion des monstres
+## Gestion des monstres 
 
 Les déplacements des monstres sont entièrement aléatoires. Une collision avec un monstre déclenche la perte d’une vie. Commencer par ajouter un seul monstre à la fois, puis augmenter le nombre de monstres. Les monstres ne peuvent pas ramasser les bonus qui se trouvent sur le sol. Les monstres ont peur des portes et ne peuvent pas les franchir. Ils ne peuvent pas marcher sur les cases des portes. Les monstres ne peuvent pas déplacer les cartes. 
 
-## Fin de partie
+## Fin de partie :heavy_check_mark:
 
 La partie est finie lorsque le joueur arrive sur la case de la
 princesse. Les monstres ne veulent pas de mal à la princesse, mais feront
