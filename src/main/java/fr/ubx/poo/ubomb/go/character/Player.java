@@ -38,9 +38,10 @@ public class Player extends GameObject implements Movable, TakeVisitor {
     }
 
     /**
-     * Takes a key.
+     * Récupère la clé.
      *
-     * @param key the key
+     * @param key la clé récupérée
+     * @see Key
      */
     @Override
     public void take(Key key) {
@@ -48,12 +49,24 @@ public class Player extends GameObject implements Movable, TakeVisitor {
         key.remove();
     }
 
+    /**
+     * Récupère le coeur.
+     *
+     * @param hearth le coeur récupéré
+     * @see Hearth
+     */
     @Override
     public void take(Hearth hearth) {
         lives++;
         hearth.remove();
     }
 
+    /**
+     * Récupère la princesse.
+     *
+     * @param princess la princesse du niveau
+     * @see Princess
+     */
     @Override
     public void take(Princess princess) {
         princess.remove();
@@ -61,11 +74,11 @@ public class Player extends GameObject implements Movable, TakeVisitor {
     }
 
     /**
-     * Indique si le déplacement du joueur est possible.
-     * Si le déplacement est possible, on vérifie si le joueur se trouve un bonus
+     * Effectue le déplacement du joueur dans la direction donnée.
+     * Si le joueur marche sur un bonus, le bonus est récupéré
      * Si le joueur touche un ennemi, il perd une vie
-     *
      * @param direction La direction du déplacement demandé
+     * @see Bonus#takenBy(Player)
      */
     public void doMove(Direction direction) {
 
@@ -116,7 +129,12 @@ public class Player extends GameObject implements Movable, TakeVisitor {
         }
         moveRequested = true;
     }
-
+    /**
+     * Indique si le déplacement du joueur est possible.
+     *
+     * @param direction La direction du déplacement demandé
+     * @return True si le déplacement est possible, False sinon
+     */
     public final boolean canMove(Direction direction) {
         Position nextPos = direction.nextPosition(getPosition());
         GameObject next = game.grid().get(nextPos);
