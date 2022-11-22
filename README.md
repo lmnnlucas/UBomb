@@ -107,7 +107,7 @@ Le joueur peut marcher sur une case où se trouve un bonus, une clé, ou un autr
 S’il atteint la princesse, la partie se termine par une victoire.
 Si ses points de vie tombent à 0, la partie se termine par une défaite.
 
-## Ajoutons des monstres :heavy_division_sign:
+## Ajoutons des monstres :heavy_check_mark:
 Ajouter des monstres. Pour le moment, les monstres ne savent pas marcher, ils ne bougent pas. Faire en sorte que le joueur perde une vie lorsqu'il se trouve sur la même case qu'un monstre.
 
 ## Gestion du panneau d’informations :heavy_check_mark:
