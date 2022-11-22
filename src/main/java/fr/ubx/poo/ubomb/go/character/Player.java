@@ -127,7 +127,7 @@ public class Player extends GameObject implements Movable, TakeVisitor {
         }
 
         // Vrai si le joueur se déplace sur une case vide ou un bonus;
-        return next==null || next instanceof Bonus;
+        return next==null || next.walkableBy(this);
     }
 
     public void update(long now) {
