@@ -6,6 +6,8 @@ package fr.ubx.poo.ubomb.go;
 
 import fr.ubx.poo.ubomb.game.Game;
 import fr.ubx.poo.ubomb.game.Position;
+import fr.ubx.poo.ubomb.view.ImageResource;
+import fr.ubx.poo.ubomb.view.SpriteFactory;
 
 public abstract class GameObject implements Walkable {
     public final Game game;

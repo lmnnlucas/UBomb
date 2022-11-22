@@ -4,14 +4,13 @@
 
 package fr.ubx.poo.ubomb.go.character;
 
-import fr.ubx.poo.ubomb.engine.StatusBar;
-import fr.ubx.poo.ubomb.engine.Timer;
 import fr.ubx.poo.ubomb.game.Direction;
 import fr.ubx.poo.ubomb.game.Game;
 import fr.ubx.poo.ubomb.game.Position;
 import fr.ubx.poo.ubomb.go.GameObject;
 import fr.ubx.poo.ubomb.go.Movable;
 import fr.ubx.poo.ubomb.go.TakeVisitor;
+import fr.ubx.poo.ubomb.go.decor.bonus.Bonus;
 import fr.ubx.poo.ubomb.go.decor.Decor;
 import fr.ubx.poo.ubomb.go.decor.bonus.*;
 
@@ -31,7 +30,6 @@ public class Player extends GameObject implements Movable, TakeVisitor {
         this.bombRange = 1;
         this.bombBag = 1;
     }
-
 
     @Override
     public void take(Key key) {
@@ -55,6 +53,11 @@ public class Player extends GameObject implements Movable, TakeVisitor {
         setPosition(nextPos);
     }
 
+    public void plantBomb() {
+        if(bombBag >= 1) {
+
+        }
+    }
 
     public int getLives() {
         return lives;

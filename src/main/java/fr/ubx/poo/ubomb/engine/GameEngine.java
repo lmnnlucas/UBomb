@@ -9,6 +9,7 @@ import fr.ubx.poo.ubomb.game.Game;
 import fr.ubx.poo.ubomb.game.Position;
 import fr.ubx.poo.ubomb.go.character.Monster;
 import fr.ubx.poo.ubomb.go.character.Player;
+import fr.ubx.poo.ubomb.go.decor.Bomb;
 import fr.ubx.poo.ubomb.view.*;
 import javafx.animation.AnimationTimer;
 import javafx.animation.TranslateTransition;
@@ -25,10 +26,8 @@ import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
 
 
 public final class GameEngine {
@@ -120,7 +119,7 @@ public final class GameEngine {
     }
 
     private void createNewBombs(long now) {
-        // Create a new Bomb is needed
+        Timer timer = new Timer(3);
     }
 
     private void checkCollision(long now) {
@@ -140,6 +139,8 @@ public final class GameEngine {
             player.requestMove(Direction.RIGHT);
         } else if (input.isMoveUp()) {
             player.requestMove(Direction.UP);
+        } else if (input.isBomb()) {
+
         }
         input.clear();
     }
