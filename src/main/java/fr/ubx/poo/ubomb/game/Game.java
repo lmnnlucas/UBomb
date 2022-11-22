@@ -13,14 +13,17 @@ public class Game {
 
     private final Configuration configuration;
     private final Player player;
-    private final Monster monster;
+    
+    private final ArrayList<Monster> monsters;
     private final Grid grid;
 
     public Game(Configuration configuration, Grid grid) {
         this.configuration = configuration;
         this.grid = grid;
         player = new Player(this, configuration.playerPosition());
-        monster = new Monster(this, configuration.monsterPosition());
+        monsters = new ArrayList<>();
+        monsters.add(new Monster(this, new Position(2,2)));
+        monsters.add(new Monster(this, new Position(2,3)));
     }
 
     public Configuration configuration() {
@@ -32,13 +35,14 @@ public class Game {
         List<GameObject> gos = new LinkedList<>();
         if (player().getPosition().equals(position))
             gos.add(player);
-        if (monster().getPosition().equals(position)) {
-            gos.add(monster);
+        for (Monster monster : monsters) {
+            if (monster.getPosition().equals(position))
+                gos.add(monster);
         }
         return gos;
     }
 
-    public Monster monster() { return this.monster; }
+    public ArrayList<Monster> monster() { return this.monsters; }
 
     public Grid grid() {
         return grid;
