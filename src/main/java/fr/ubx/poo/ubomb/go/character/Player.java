@@ -59,6 +59,7 @@ public class Player extends GameObject implements Movable, TakeVisitor {
         princess.remove();
         haveWon = true;
     }
+
     /**
      * Indique si le déplacement du joueur est possible.
      * Si le déplacement est possible, on vérifie si le joueur se trouve un bonus
@@ -119,22 +120,14 @@ public class Player extends GameObject implements Movable, TakeVisitor {
     public final boolean canMove(Direction direction) {
         Position nextPos = direction.nextPosition(getPosition());
         GameObject next = game.grid().get(nextPos);
-        boolean isDecor = next instanceof Decor; // TODO : A retirer
-        boolean isBonus = next instanceof Bonus; // Visitor pattern ->
-        boolean isMonster = next instanceof Monster; // TODO : A retirer
 
-        if (nextPos.x() > game.grid().width() - 1 || nextPos.x() < 0) {
-            return false;
-        } else if (nextPos.y() > game.grid().height() - 1 || nextPos.y() < 0) {
+        // On vérifie que le joueur ne sorte pas des limites du niveau
+        if (nextPos.x() > game.grid().width() - 1 || (nextPos.x() < 0) || (nextPos.y() > game.grid().height() - 1) || (nextPos.y() < 0)) {
             return false;
         }
-        if (isBonus) {
-            return true;
-        } else if (isMonster) {
-            return false;
-        } else {
-            return !isDecor;
-        }
+
+        // Vrai si le joueur se déplace sur une case vide ou un bonus;
+        return next==null || next instanceof Bonus;
     }
 
     public void update(long now) {
