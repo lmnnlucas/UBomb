@@ -37,36 +37,21 @@ public class Player extends GameObject implements Movable, TakeVisitor {
         this.bombBag = 1;
     }
 
-    /**
-     * Récupère la clé.
-     *
-     * @param key la clé récupérée
-     * @see Key
-     */
     @Override
     public void take(Key key) {
         keys++;
         key.remove();
     }
-
-    /**
-     * Récupère le coeur.
-     *
-     * @param hearth le coeur récupéré
-     * @see Hearth
-     */
+    public void take(Monster monster) {
+        lives--;
+        monster.remove();
+    }
     @Override
     public void take(Hearth hearth) {
         lives++;
         hearth.remove();
     }
 
-    /**
-     * Récupère la princesse.
-     *
-     * @param princess la princesse du niveau
-     * @see Princess
-     */
     @Override
     public void take(Princess princess) {
         princess.remove();
@@ -84,20 +69,13 @@ public class Player extends GameObject implements Movable, TakeVisitor {
 
         // This method is called only if the move is possible, do not check again
         Position nextPos = direction.nextPosition(getPosition());
-        GameObject next = game.grid().get(nextPos);
-
-        if (next instanceof Bonus bonus) {
-            System.out.println("Bonus : " + bonus.toString());
-            bonus.takenBy(this);
-        }
 
         // Si le joueur se trouve sur un ennemi, il perd une vie
+        // TODO : Voir si liste nécessaire
         List<GameObject> objectList = game.getGameObjects(nextPos);
         for (GameObject object : objectList) {
             System.out.println("Object : " + object.toString());
-            if (object instanceof Monster) {
-                this.lives--;
-            }
+            object.takenBy(this);
         }
         setPosition(nextPos);
     }

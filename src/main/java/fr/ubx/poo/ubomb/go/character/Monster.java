@@ -33,4 +33,9 @@ public class Monster extends GameObject implements Movable {
     public Direction getDirection() {
         return direction;
     }
+
+    @Override
+    public void takenBy(Player player) {
+        player.take(this);
+    }
 }

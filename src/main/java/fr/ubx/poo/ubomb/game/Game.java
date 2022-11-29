@@ -39,6 +39,8 @@ public class Game {
             if (monster.getPosition().equals(position))
                 gos.add(monster);
         }
+        if (grid.get(position) != null)
+            gos.add(grid.get(position));
         return gos;
     }
 
