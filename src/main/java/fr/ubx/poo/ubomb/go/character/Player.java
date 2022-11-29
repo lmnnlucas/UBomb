@@ -143,4 +143,7 @@ public class Player extends GameObject implements Movable, TakeVisitor {
     public boolean haveWon(){
         return haveWon;
     }
+    public Game getGame() {
+        return game;
+    }
 }

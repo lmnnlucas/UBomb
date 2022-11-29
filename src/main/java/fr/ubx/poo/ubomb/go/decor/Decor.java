@@ -13,5 +13,4 @@ public abstract class Decor extends GameObject {
     public Decor(Position position) {
         super(position);
     }
-
 }
