@@ -6,8 +6,9 @@ package fr.ubx.poo.ubomb.go;
 
 import fr.ubx.poo.ubomb.game.Game;
 import fr.ubx.poo.ubomb.game.Position;
+import fr.ubx.poo.ubomb.go.character.Player;
 
-public abstract class GameObject implements Walkable {
+public abstract class GameObject implements Walkable, Takeable {
     public final Game game;
     private boolean deleted = false;
     private boolean modified = true;
@@ -48,5 +49,10 @@ public abstract class GameObject implements Walkable {
     }
 
     public void explode() {
+    }
+
+    @Override
+    public void takenBy(Player player) {
+        Takeable.super.takenBy(player);
     }
 }
