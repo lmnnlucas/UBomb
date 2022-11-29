@@ -42,16 +42,25 @@ public class Player extends GameObject implements Movable, TakeVisitor {
         keys++;
         key.remove();
     }
+    
+    @Override
     public void take(Monster monster) {
         lives--;
         monster.remove();
     }
+    
     @Override
     public void take(Hearth hearth) {
         lives++;
         hearth.remove();
     }
 
+    /**
+     * Récupère la princesse.
+     *
+     * @param princess la princesse du niveau
+     * @see Princess
+     */
     @Override
     public void take(Princess princess) {
         princess.remove();
