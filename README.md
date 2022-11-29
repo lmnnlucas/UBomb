@@ -114,7 +114,7 @@ Ajouter des monstres. Pour le moment, les monstres ne savent pas marcher, ils ne
 
 Le panneau d’information doit afficher le nombre de vies, le nombre de bombes et leur portée, le nombre de clés dans l’inventaire et le numéro de niveau courant.
 
-## Gestion des mondes
+## Gestion des mondes :heavy_division_sign:
 
 Dans la version de base, le jeu ne dispose que d'un seul niveau codé en dur dans le code. Nous allons maintenant charger une configuration complète de jeu depuis un fichier. Vous trouverez un répertoire `world` à la racine du projet avec un fichier `sample.properties` représentant un monde avec 3 niveaux. Les fichiers [properties](https://docs.oracle.com/javase/tutorial/essential/environment/properties.html) en Java permettent de facilement stocker des couples de clés/valeurs. 
 
@@ -165,7 +165,7 @@ Bonus | Effet
 | ![range-](src/main/resources/images/bonus_bomb_range_dec.png) | Diminue la portée des bombes d’une unité. La portée minimale est d’un. La modification de portée n'affecte pas les bombes déjà posées. |
 | ![live](src/main/resources/images/heart.png) | Ajoute une vie. |
 
-## Déplacement des caisses
+## Déplacement des caisses :heavy_check_mark:
 
  Les caisses doivent pouvoir être déplacées par le joueur si rien ne gêne dans le sens de la poussée. Le joueur ne peut déplacer qu'une seule caisse à la fois. Si un bonus ou un monstre se trouve dans la direction de déplacement d’une caisse, la caisse reste bloquée. Le joueur ne peut pas déplacer deux caisses à la fois. Vous pouvez représenter les caisses comme des éléments de décor. Dans ce cas, déplacer une caisse revient à la supprimer et en créer une nouvelle aux bonnes coordonnées.
 
