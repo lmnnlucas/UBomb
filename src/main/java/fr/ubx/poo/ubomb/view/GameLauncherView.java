@@ -1,7 +1,9 @@
 package fr.ubx.poo.ubomb.view;
 
 import fr.ubx.poo.ubomb.engine.GameEngine;
+import fr.ubx.poo.ubomb.game.Configuration;
 import fr.ubx.poo.ubomb.game.Game;
+import fr.ubx.poo.ubomb.game.Level;
 import fr.ubx.poo.ubomb.launcher.GameLauncher;
 import fr.ubx.poo.ubomb.launcher.MapLevel;
 import javafx.scene.control.*;
@@ -13,6 +15,9 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 import java.io.*;
+import java.util.Properties;
+
+import static javafx.beans.property.IntegerProperty.integerProperty;
 
 public class GameLauncherView extends BorderPane {
     private final FileChooser fileChooser = new FileChooser();
@@ -44,8 +49,9 @@ public class GameLauncherView extends BorderPane {
         loadItem.setOnAction(e -> {
             File file = fileChooser.showOpenDialog(stage);
             if (file != null) {
-                // TODO
-                System.err.println("[TODO] Not implemented");
+                Game game = GameLauncher.load(file);
+                GameEngine engine = new GameEngine(game, stage);
+                engine.start();
             }
         });
 

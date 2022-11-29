@@ -6,5 +6,7 @@ public record Position (int x, int y) {
         this(position.x, position.y);
     }
 
-
+    public Position(String s) {
+        this(Integer.parseInt(s.split("x")[0]),Integer.parseInt(s.split("x")[1]));
+    }
 }
