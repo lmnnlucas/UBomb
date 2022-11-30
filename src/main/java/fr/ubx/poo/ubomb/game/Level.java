@@ -62,6 +62,9 @@ public class Level implements Grid {
                     case DoorNextOpened:
                         elements.put(position,new DoorNextOpened(position));
                         break;
+                    case DoorNextClosed:
+                    case DoorPrevOpened:
+                        break;
                     case Monster:
                         break;
                     case Empty: break;
