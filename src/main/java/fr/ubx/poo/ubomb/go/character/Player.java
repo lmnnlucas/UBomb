@@ -74,7 +74,6 @@ public class Player extends GameObject implements Movable, TakeVisitor {
         // Check if the next position is a takeable object
         List<GameObject> objectList = game.getGameObjects(nextPos);
         for (GameObject object : objectList) {
-            System.out.println("Object : " + object.toString());
             object.takenBy(this);
         }
         setPosition(nextPos);
