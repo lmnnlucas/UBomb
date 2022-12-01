@@ -32,7 +32,6 @@ public class Box extends Decor implements Movable, Takeable {
 
     @Override
     public void doMove(Direction direction) {
-        System.out.println("Box doMove");
         game.grid().remove(getPosition());
         this.setPosition(direction.nextPosition(getPosition()));
         game.grid().set(getPosition(), this);
