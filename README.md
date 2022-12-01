@@ -114,7 +114,7 @@ Ajouter des monstres. Pour le moment, les monstres ne savent pas marcher, ils ne
 
 Le panneau d’information doit afficher le nombre de vies, le nombre de bombes et leur portée, le nombre de clés dans l’inventaire et le numéro de niveau courant.
 
-## Gestion des mondes :heavy_division_sign:
+## Gestion des mondes :heavy_check_mark:
 
 Dans la version de base, le jeu ne dispose que d'un seul niveau codé en dur dans le code. Nous allons maintenant charger une configuration complète de jeu depuis un fichier. Vous trouverez un répertoire `world` à la racine du projet avec un fichier `sample.properties` représentant un monde avec 3 niveaux. Les fichiers [properties](https://docs.oracle.com/javase/tutorial/essential/environment/properties.html) en Java permettent de facilement stocker des couples de clés/valeurs. 
 
@@ -142,7 +142,7 @@ monsterInvisibilityTime | 1000 |
 La clé `player` est obligatoire et sa valeur représente les coordonnées (`i` et `j`) du joueur sur le premier niveau. Le fichier contient des clés de la forme `levelX` ou `X` représente un numéro de niveau compris entre 1 et la valeur de la clé `levels`. La valeur associée à un niveau est une chaine de caractère encodant le niveau avec ou sans compression (RLE) en fonction de la variable `compression`.
 Modifier le code dans la classe `GameLauncher` pour que le monde du jeu puisse être chargé depuis un fichier. 
 
-## Gestion des portes
+## Gestion des portes :heavy_division_sign:
 
 Lorsque le joueur arrive sur la case d’une porte ouverte, il passe
 automatiquement au niveau correspondant à cette porte (niveau supérieur
@@ -190,7 +190,7 @@ Si le joueur pose une bombe et change ensuite de niveau en franchissant une port
 
 Le joueur peut perdre une vie s’il se trouve sur une case à portée de l’explosion d’une bombe ou s'il croise un monstre. Si le joueur n’a plus de vie, la partie se termine. Le joueur bénéficie alors d’une temporisation d'une seconde pendant laquelle il est invulnérable.
 
-## Gestion des monstres 
+## Gestion des monstres :heavy_division_sign:
 
 Les déplacements des monstres sont entièrement aléatoires. Une collision avec un monstre déclenche la perte d’une vie. Commencer par ajouter un seul monstre à la fois, puis augmenter le nombre de monstres. Les monstres ne peuvent pas ramasser les bonus qui se trouvent sur le sol. Les monstres ont peur des portes et ne peuvent pas les franchir. Ils ne peuvent pas marcher sur les cases des portes. Les monstres ne peuvent pas déplacer les cartes. 
 
