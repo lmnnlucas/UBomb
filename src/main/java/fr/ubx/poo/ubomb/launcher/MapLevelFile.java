@@ -1,11 +1,9 @@
 package fr.ubx.poo.ubomb.launcher;
 
 import java.util.Arrays;
-import java.util.Map;
-
 public class MapLevelFile implements MapRepo{
 
-    private static MapLevelFile instance = new MapLevelFile();
+    private final static MapLevelFile instance = new MapLevelFile();
 
     private MapLevelFile() {}
 
@@ -18,7 +16,7 @@ public class MapLevelFile implements MapRepo{
         String[] split = string.split("x");
         int height = split.length;
         int width = Arrays.stream(split).mapToInt(i -> i.length()).max().getAsInt();
-        //Fill the gap in the properties
+        //Fill the empty gap in the properties
         for (int j = 0; j < split.length; j++) {
             if(split[j].length() < width) {
                 for (int i = split[j].length()-width; i < 0; i++) {
@@ -34,6 +32,7 @@ public class MapLevelFile implements MapRepo{
                 level.set(y,x,Entity.fromCode(split[y].charAt(x)));
             }
         }
+
         return level;
     }
 

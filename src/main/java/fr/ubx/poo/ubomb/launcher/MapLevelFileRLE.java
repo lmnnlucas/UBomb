@@ -1,9 +1,7 @@
 package fr.ubx.poo.ubomb.launcher;
 
-import java.util.Arrays;
-
 public class MapLevelFileRLE implements MapRepo {
-    private static MapLevelFileRLE instance = new MapLevelFileRLE();
+    private final static MapLevelFileRLE instance = new MapLevelFileRLE();
 
     private MapLevelFileRLE() {}
 
