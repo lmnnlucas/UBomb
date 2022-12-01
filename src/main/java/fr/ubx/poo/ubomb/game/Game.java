@@ -25,6 +25,7 @@ public class Game {
         this.grid = grid;
         this.gridNumber = 1;
         this.levels = new ArrayList<>();
+        monsters = new ArrayList<>();
         player = new Player(this, configuration.playerPosition());
     }
 
