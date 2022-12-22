@@ -1,8 +1,11 @@
 package fr.ubx.poo.ubomb.game;
 
+import fr.ubx.poo.ubomb.go.character.Monster;
 import fr.ubx.poo.ubomb.go.decor.bonus.*;
 import fr.ubx.poo.ubomb.go.decor.*;
+import fr.ubx.poo.ubomb.go.decor.door.DoorNextClosed;
 import fr.ubx.poo.ubomb.go.decor.door.DoorNextOpened;
+import fr.ubx.poo.ubomb.go.decor.door.DoorPrevOpened;
 import fr.ubx.poo.ubomb.launcher.Entity;
 import fr.ubx.poo.ubomb.launcher.MapLevel;
 
@@ -63,7 +66,10 @@ public class Level implements Grid {
                         elements.put(position,new DoorNextOpened(position));
                         break;
                     case DoorNextClosed:
+                        elements.put(position,new DoorNextClosed(position));
+                        break;
                     case DoorPrevOpened:
+                        elements.put(position, new DoorPrevOpened(position));
                         break;
                     case Monster:
                         break;
@@ -96,7 +102,6 @@ public class Level implements Grid {
     public Collection<Decor> values() {
         return elements.values();
     }
-
 
     @Override
     public boolean inside(Position position) {

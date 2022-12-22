@@ -3,10 +3,12 @@ package fr.ubx.poo.ubomb.game;
 import fr.ubx.poo.ubomb.go.GameObject;
 import fr.ubx.poo.ubomb.go.character.Monster;
 import fr.ubx.poo.ubomb.go.character.Player;
+import fr.ubx.poo.ubomb.go.decor.Decor;
+import fr.ubx.poo.ubomb.go.decor.door.DoorPrevOpened;
 import fr.ubx.poo.ubomb.launcher.MapLevel;
 
 import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -14,11 +16,15 @@ public class Game {
     private ArrayList<Grid> levels;
     private final Configuration configuration;
     private final Player player;
-
     private final ArrayList<Monster> monsters;
-    private final Grid grid;
-
+    private Grid grid; // final
     private int gridNumber;
+
+    // Level progression
+    private ArrayList<Decor> oldGrid;
+
+    private int oldGridNumber;
+    private boolean gridNeedUpdate;
 
     public Game(Configuration configuration, Grid grid) {
         this.configuration = configuration;
@@ -27,6 +33,8 @@ public class Game {
         this.levels = new ArrayList<>();
         monsters = new ArrayList<>();
         player = new Player(this, configuration.playerPosition());
+        monsters.add(new Monster(this, new Position(2,2)));
+        monsters.add(new Monster(this, new Position(2,3)));
     }
 
     public Game(Configuration configuration, List<Grid> levels) {
@@ -36,8 +44,6 @@ public class Game {
         this.levels = new ArrayList<>(levels);
         player = new Player(this, configuration.playerPosition());
         monsters = new ArrayList<>();
-        monsters.add(new Monster(this, new Position(2,2)));
-        monsters.add(new Monster(this, new Position(2,3)));
     }
 
     public Configuration configuration() {
@@ -59,6 +65,29 @@ public class Game {
     }
 
     public ArrayList<Monster> monster() { return this.monsters; }
+
+    public void changeLevel(int levelModifier) {
+        gridNeedUpdate = true;
+        oldGridNumber = gridNumber;
+        gridNumber += levelModifier;
+    }
+
+    public void updateGridForNewLevel() {
+        grid = levels.get(gridNumber-1);
+        player.setPosition(grid.values().stream()
+                .filter(v -> v instanceof DoorPrevOpened)
+                .map(v -> v.getPosition())
+                .findFirst()
+                .orElse(configuration.playerPosition()));
+    }
+
+    public boolean gridNeedUpdate() {
+        return gridNeedUpdate;
+    }
+
+    public void gridUpdated() {
+        this.gridNeedUpdate = false;
+    }
 
     public Grid grid() {
         return grid;

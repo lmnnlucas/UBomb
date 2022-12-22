@@ -77,6 +77,7 @@ public final class GameEngine {
         }
 
         sprites.add(new SpritePlayer(layer, player));
+
         for (Monster monster : monsters){
             sprites.add(new SpriteMonster(layer, monster));
         }
@@ -165,6 +166,23 @@ public final class GameEngine {
 
 
     private void update(long now) {
+        if(game.gridNeedUpdate()) { // TODO : Added but need to a change for the world concordance factor
+            cleanupSprites();
+            game.updateGridForNewLevel();
+            // Create sprites
+            for (var decor : game.grid().values()) {
+                sprites.add(SpriteFactory.create(layer, decor));
+                decor.setModified(true);
+            }
+
+            sprites.add(new SpritePlayer(layer, player));
+            player.setModified(true);
+
+            for (Monster monster : monsters){
+                sprites.add(new SpriteMonster(layer, monster));
+            }
+            game.gridUpdated();
+        }
         player.update(now);
         if (player.haveWon()){
             gameLoop.stop();
@@ -181,6 +199,8 @@ public final class GameEngine {
             if (sprite.getGameObject().isDeleted()) {
                 game.grid().remove(sprite.getPosition());
                 cleanUpSprites.add(sprite);
+            } else if (game.gridNeedUpdate()) {
+                sprite.remove();
             }
         });
         cleanUpSprites.forEach(Sprite::remove);

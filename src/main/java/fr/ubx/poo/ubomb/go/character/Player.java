@@ -10,8 +10,9 @@ import fr.ubx.poo.ubomb.game.Position;
 import fr.ubx.poo.ubomb.go.GameObject;
 import fr.ubx.poo.ubomb.go.Movable;
 import fr.ubx.poo.ubomb.go.TakeVisitor;
-import fr.ubx.poo.ubomb.go.decor.Decor;
 import fr.ubx.poo.ubomb.go.decor.bonus.*;
+import fr.ubx.poo.ubomb.go.decor.door.Door;
+import fr.ubx.poo.ubomb.go.decor.door.DoorNextOpened;
 
 import java.util.List;
 
@@ -57,6 +58,11 @@ public class Player extends GameObject implements Movable, TakeVisitor {
     public void take(Princess princess) {
         princess.remove();
         haveWon = true;
+    }
+
+    @Override
+    public void take(Door door) {
+        game.changeLevel(door.getLevelModifier());
     }
 
     /**
