@@ -6,7 +6,7 @@ import fr.ubx.poo.ubomb.go.Walkable;
 import fr.ubx.poo.ubomb.go.character.Player;
 import fr.ubx.poo.ubomb.go.decor.Decor;
 
-public abstract class Door extends Decor implements Takeable, Walkable {
+public class Door extends Decor implements Takeable, Walkable {
     private boolean locked;
 
     private final int levelModifier;
@@ -23,6 +23,7 @@ public abstract class Door extends Decor implements Takeable, Walkable {
 
     public void unlockDoor() {
         locked = false;
+        setModified(true);
     }
 
     public boolean isLocked() {

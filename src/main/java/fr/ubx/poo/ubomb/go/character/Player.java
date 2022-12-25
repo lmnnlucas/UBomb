@@ -12,7 +12,6 @@ import fr.ubx.poo.ubomb.go.Movable;
 import fr.ubx.poo.ubomb.go.TakeVisitor;
 import fr.ubx.poo.ubomb.go.decor.bonus.*;
 import fr.ubx.poo.ubomb.go.decor.door.Door;
-import fr.ubx.poo.ubomb.go.decor.door.DoorNextOpened;
 
 import java.util.List;
 
@@ -62,7 +61,12 @@ public class Player extends GameObject implements Movable, TakeVisitor {
 
     @Override
     public void take(Door door) {
-        game.changeLevel(door.getLevelModifier());
+        if(keys > 0 && door.isLocked()) {
+            door.unlockDoor();
+            keys--;
+        } else if (!door.isLocked()) {
+            game.changeLevel(door.getLevelModifier());
+        }
     }
 
     /**
@@ -129,6 +133,13 @@ public class Player extends GameObject implements Movable, TakeVisitor {
 
         // Vrai si le joueur se déplace sur une case vide ou un bonus;
         return next==null || next.walkableBy(this);
+    }
+
+    public void interactWithDoor() {
+        List<GameObject> object = game.getGameObjects(direction.nextPosition(getPosition()));
+        if(object.size() > 0) {
+            object.get(0).takenBy(this);
+        }
     }
 
     public void update(long now) {

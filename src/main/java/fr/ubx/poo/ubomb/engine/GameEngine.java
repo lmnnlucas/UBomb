@@ -9,6 +9,7 @@ import fr.ubx.poo.ubomb.game.Game;
 import fr.ubx.poo.ubomb.game.Position;
 import fr.ubx.poo.ubomb.go.character.Monster;
 import fr.ubx.poo.ubomb.go.character.Player;
+import fr.ubx.poo.ubomb.go.decor.door.Door;
 import fr.ubx.poo.ubomb.view.*;
 import javafx.animation.AnimationTimer;
 import javafx.animation.TranslateTransition;
@@ -142,6 +143,8 @@ public final class GameEngine {
             player.requestMove(Direction.RIGHT);
         } else if (input.isMoveUp()) {
             player.requestMove(Direction.UP);
+        } else if (input.isKey()) {
+            player.interactWithDoor();
         }
         input.clear();
     }
@@ -200,7 +203,7 @@ public final class GameEngine {
                 game.grid().remove(sprite.getPosition());
                 cleanUpSprites.add(sprite);
             } else if (game.gridNeedUpdate()) {
-                sprite.remove();
+                cleanUpSprites.add(sprite);
             }
         });
         cleanUpSprites.forEach(Sprite::remove);

@@ -3,12 +3,9 @@ package fr.ubx.poo.ubomb.game;
 import fr.ubx.poo.ubomb.go.GameObject;
 import fr.ubx.poo.ubomb.go.character.Monster;
 import fr.ubx.poo.ubomb.go.character.Player;
-import fr.ubx.poo.ubomb.go.decor.Decor;
-import fr.ubx.poo.ubomb.go.decor.door.DoorPrevOpened;
-import fr.ubx.poo.ubomb.launcher.MapLevel;
+import fr.ubx.poo.ubomb.go.decor.door.Door;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -19,11 +16,6 @@ public class Game {
     private final ArrayList<Monster> monsters;
     private Grid grid; // final
     private int gridNumber;
-
-    // Level progression
-    private ArrayList<Decor> oldGrid;
-
-    private int oldGridNumber;
     private boolean gridNeedUpdate;
 
     public Game(Configuration configuration, Grid grid) {
@@ -68,14 +60,14 @@ public class Game {
 
     public void changeLevel(int levelModifier) {
         gridNeedUpdate = true;
-        oldGridNumber = gridNumber;
         gridNumber += levelModifier;
     }
 
     public void updateGridForNewLevel() {
+        System.out.println("level switch");
         grid = levels.get(gridNumber-1);
         player.setPosition(grid.values().stream()
-                .filter(v -> v instanceof DoorPrevOpened)
+                .filter(v -> v instanceof Door && (((Door) v).getLevelModifier() == -1))
                 .map(v -> v.getPosition())
                 .findFirst()
                 .orElse(configuration.playerPosition()));
