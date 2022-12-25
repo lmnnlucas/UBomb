@@ -9,6 +9,7 @@ import fr.ubx.poo.ubomb.game.Game;
 import fr.ubx.poo.ubomb.game.Position;
 import fr.ubx.poo.ubomb.go.character.Monster;
 import fr.ubx.poo.ubomb.go.character.Player;
+import fr.ubx.poo.ubomb.go.decor.door.Door;
 import fr.ubx.poo.ubomb.view.*;
 import javafx.animation.AnimationTimer;
 import javafx.animation.TranslateTransition;
@@ -77,6 +78,7 @@ public final class GameEngine {
         }
 
         sprites.add(new SpritePlayer(layer, player));
+
         for (Monster monster : monsters){
             sprites.add(new SpriteMonster(layer, monster));
         }
@@ -141,6 +143,8 @@ public final class GameEngine {
             player.requestMove(Direction.RIGHT);
         } else if (input.isMoveUp()) {
             player.requestMove(Direction.UP);
+        } else if (input.isKey()) {
+            player.interactWithDoor();
         }
         input.clear();
     }
@@ -165,6 +169,23 @@ public final class GameEngine {
 
 
     private void update(long now) {
+        if(game.gridNeedUpdate()) { // TODO : Added but need to a change for the world concordance factor
+            cleanupSprites();
+            game.updateGridForNewLevel();
+            // Create sprites
+            for (var decor : game.grid().values()) {
+                sprites.add(SpriteFactory.create(layer, decor));
+                decor.setModified(true);
+            }
+
+            sprites.add(new SpritePlayer(layer, player));
+            player.setModified(true);
+
+            for (Monster monster : monsters){
+                sprites.add(new SpriteMonster(layer, monster));
+            }
+            game.gridUpdated();
+        }
         player.update(now);
         if (player.haveWon()){
             gameLoop.stop();
@@ -180,6 +201,8 @@ public final class GameEngine {
         sprites.forEach(sprite -> {
             if (sprite.getGameObject().isDeleted()) {
                 game.grid().remove(sprite.getPosition());
+                cleanUpSprites.add(sprite);
+            } else if (game.gridNeedUpdate()) {
                 cleanUpSprites.add(sprite);
             }
         });
