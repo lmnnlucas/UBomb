@@ -38,6 +38,8 @@ public final class SpriteFactory {
             return new Sprite(layer, BONUS_BOMB_NB_DEC.getImage(), gameObject);
         if(gameObject instanceof Door)
             return new SpriteDoor(layer, (Door)gameObject);
+        if(gameObject instanceof Bomb)
+            return new SpriteBomb(layer, (Bomb)gameObject);
         throw new RuntimeException("Unsupported sprite for decor " + gameObject);
     }
 }

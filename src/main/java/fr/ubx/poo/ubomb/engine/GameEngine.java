@@ -9,6 +9,7 @@ import fr.ubx.poo.ubomb.game.Game;
 import fr.ubx.poo.ubomb.game.Position;
 import fr.ubx.poo.ubomb.go.character.Monster;
 import fr.ubx.poo.ubomb.go.character.Player;
+import fr.ubx.poo.ubomb.go.decor.Bomb;
 import fr.ubx.poo.ubomb.go.decor.door.Door;
 import fr.ubx.poo.ubomb.view.*;
 import javafx.animation.AnimationTimer;
@@ -35,6 +36,7 @@ public final class GameEngine {
     private final Game game;
     private final Player player;
     private final ArrayList<Monster> monsters;
+    private final ArrayList<Bomb> bombs;
     private final List<Sprite> sprites = new LinkedList<>();
     private final Set<Sprite> cleanUpSprites = new HashSet<>();
     private final Stage stage;
@@ -47,6 +49,7 @@ public final class GameEngine {
         this.game = game;
         this.player = game.player();
         this.monsters = game.monster();
+        this.bombs = new ArrayList<>();
         initialize();
         buildAndSetGameLoop();
     }
@@ -105,6 +108,13 @@ public final class GameEngine {
     }
 
     private void checkExplosions() {
+        for(int i = 0; i < player.getBombs().size(); i++) {
+            Bomb b = player.getBombs().get(i);
+            if(!b.getTimer().isRunning()) {
+                animateExplosion(b.getPosition(),b.getPosition());
+                b.explode();
+            }
+        }
         // Check explosions of bombs
     }
 
@@ -123,6 +133,15 @@ public final class GameEngine {
     }
 
     private void createNewBombs(long now) {
+        if(player.isBombPlaced()) {
+            sprites.add(new SpriteBomb(layer,(Bomb)game.grid().get(player.getPosition())));
+            player.bombIsRendered();
+        } else {
+            player.getBombs().forEach(b -> {
+                b.getTimer().update(now);
+                b.setModified(true);
+            });
+        }
         // Create a new Bomb is needed
     }
 
@@ -145,6 +164,8 @@ public final class GameEngine {
             player.requestMove(Direction.UP);
         } else if (input.isKey()) {
             player.interactWithDoor();
+        } else if (input.isBomb()) {
+            player.placeABomb();
         }
         input.clear();
     }
@@ -169,8 +190,8 @@ public final class GameEngine {
 
 
     private void update(long now) {
-        if(game.gridNeedUpdate()) { // TODO : Added but need to a change for the world concordance factor
-            cleanupSprites();
+        if(game.gridNeedUpdate()) {
+            sprites.forEach(Sprite::remove);
             game.updateGridForNewLevel();
             // Create sprites
             for (var decor : game.grid().values()) {
@@ -184,6 +205,7 @@ public final class GameEngine {
             for (Monster monster : monsters){
                 sprites.add(new SpriteMonster(layer, monster));
             }
+
             game.gridUpdated();
         }
         player.update(now);
@@ -201,8 +223,6 @@ public final class GameEngine {
         sprites.forEach(sprite -> {
             if (sprite.getGameObject().isDeleted()) {
                 game.grid().remove(sprite.getPosition());
-                cleanUpSprites.add(sprite);
-            } else if (game.gridNeedUpdate()) {
                 cleanUpSprites.add(sprite);
             }
         });

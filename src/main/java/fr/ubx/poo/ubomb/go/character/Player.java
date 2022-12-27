@@ -10,9 +10,11 @@ import fr.ubx.poo.ubomb.game.Position;
 import fr.ubx.poo.ubomb.go.GameObject;
 import fr.ubx.poo.ubomb.go.Movable;
 import fr.ubx.poo.ubomb.go.TakeVisitor;
+import fr.ubx.poo.ubomb.go.decor.Bomb;
 import fr.ubx.poo.ubomb.go.decor.bonus.*;
 import fr.ubx.poo.ubomb.go.decor.door.Door;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -26,15 +28,16 @@ public class Player extends GameObject implements Movable, TakeVisitor {
     private int keys;
     private int bombRange;
     private int bombBag;
-
+    private boolean bombPlaced;
     private boolean haveWon = false;
-
+    private ArrayList<Bomb> bombs;
     public Player(Game game, Position position) {
         super(game, position);
         this.direction = Direction.DOWN;
         this.lives = game.configuration().playerLives();
         this.bombRange = 1;
         this.bombBag = 1;
+        this.bombs = new ArrayList<>();
     }
     @Override
     public void take(Monster monster) {
@@ -109,6 +112,23 @@ public class Player extends GameObject implements Movable, TakeVisitor {
         return direction;
     }
 
+    public boolean isBombPlaced() {
+        return bombPlaced;
+    }
+
+    public void bombIsRendered() {
+        bombPlaced = false;
+    }
+
+    public ArrayList<Bomb> getBombs() {
+        return bombs;
+    }
+
+    public void postExplosionTreatment(Bomb bomb) {
+        bombs.remove(bomb);
+        bombBag += 1;
+    }
+
     public void requestMove(Direction direction) {
         if (direction != this.direction) {
             this.direction = direction;
@@ -142,6 +162,16 @@ public class Player extends GameObject implements Movable, TakeVisitor {
         }
     }
 
+    public void placeABomb() {
+        if(bombBag > 0) {
+            Bomb bomb = new Bomb(game,getPosition());
+            bombs.add(bomb);
+            game.grid().set(getPosition(),bomb);
+            bombBag -= 1;
+            bombPlaced = true;
+        }
+    }
+
     public void update(long now) {
         if (moveRequested) {
             if (canMove(direction)) {
@@ -153,7 +183,7 @@ public class Player extends GameObject implements Movable, TakeVisitor {
 
     @Override
     public void explode() {
-        // TODO
+        lives -= 1;
     }
 
     public boolean haveWon(){
