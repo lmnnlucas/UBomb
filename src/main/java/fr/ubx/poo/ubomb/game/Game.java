@@ -21,8 +21,9 @@ public class Game {
     public Game(Configuration configuration, Grid grid) {
         this.configuration = configuration;
         this.grid = grid;
-        this.gridNumber = 1;
+        this.gridNumber = 0;
         this.levels = new ArrayList<>();
+        this.levels.add(grid);
         monsters = new ArrayList<>();
         player = new Player(this, configuration.playerPosition());
         monsters.add(new Monster(this, new Position(2,2)));
@@ -31,7 +32,7 @@ public class Game {
 
     public Game(Configuration configuration, List<Grid> levels) {
         this.configuration = configuration;
-        this.gridNumber = 1;
+        this.gridNumber = 0;
         this.grid = levels.get(0);
         this.levels = new ArrayList<>(levels);
         player = new Player(this, configuration.playerPosition());
@@ -64,13 +65,16 @@ public class Game {
     }
 
     public void updateGridForNewLevel() {
-        System.out.println("level switch");
-        grid = levels.get(gridNumber-1);
+        grid = levels.get(gridNumber);
         player.setPosition(grid.values().stream()
                 .filter(v -> v instanceof Door && (((Door) v).getLevelModifier() == -1))
                 .map(v -> v.getPosition())
                 .findFirst()
                 .orElse(configuration.playerPosition()));
+    }
+
+    public int getGridNumber() {
+        return gridNumber;
     }
 
     public boolean gridNeedUpdate() {
@@ -79,6 +83,10 @@ public class Game {
 
     public void gridUpdated() {
         this.gridNeedUpdate = false;
+    }
+
+    public Grid getGrid(int level) {
+        return levels.get(level);
     }
 
     public Grid grid() {

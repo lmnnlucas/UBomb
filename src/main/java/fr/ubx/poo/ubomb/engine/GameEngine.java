@@ -9,6 +9,7 @@ import fr.ubx.poo.ubomb.game.Game;
 import fr.ubx.poo.ubomb.game.Position;
 import fr.ubx.poo.ubomb.go.character.Monster;
 import fr.ubx.poo.ubomb.go.character.Player;
+import fr.ubx.poo.ubomb.go.decor.Bomb;
 import fr.ubx.poo.ubomb.go.decor.door.Door;
 import fr.ubx.poo.ubomb.view.*;
 import javafx.animation.AnimationTimer;
@@ -65,6 +66,7 @@ public final class GameEngine {
         stage.setScene(scene);
         stage.setResizable(true);
         stage.sizeToScene();
+        stage.hide();
         stage.show();
 
         input = new Input(scene);
@@ -105,6 +107,19 @@ public final class GameEngine {
     }
 
     private void checkExplosions() {
+        for(int i = 0; i < player.getBombs().size(); i++) {
+            Bomb b = player.getBombs().get(i);
+            if(!b.getTimer().isRunning() || b.isBombOverlapped()) {
+                player.getBombs().remove(i);
+                b.explode();
+                if(b.getGridNumber() == game.getGridNumber()) {
+                    for (Position p : b.getExplosionBounds()) {
+                        animateExplosion(b.getPosition(), p);
+                    }
+                }
+                b.remove();
+            }
+        }
         // Check explosions of bombs
     }
 
@@ -123,6 +138,10 @@ public final class GameEngine {
     }
 
     private void createNewBombs(long now) {
+        if(player.isBombPlaced()) {
+            sprites.add(new SpriteBomb(layer,(Bomb)game.grid().get(player.getPosition())));
+            player.bombIsRendered();
+        }
         // Create a new Bomb is needed
     }
 
@@ -145,6 +164,8 @@ public final class GameEngine {
             player.requestMove(Direction.UP);
         } else if (input.isKey()) {
             player.interactWithDoor();
+        } else if (input.isBomb()) {
+            player.placeABomb();
         }
         input.clear();
     }
@@ -169,8 +190,8 @@ public final class GameEngine {
 
 
     private void update(long now) {
-        if(game.gridNeedUpdate()) { // TODO : Added but need to a change for the world concordance factor
-            cleanupSprites();
+        if(game.gridNeedUpdate()) {
+            sprites.forEach(Sprite::remove);
             game.updateGridForNewLevel();
             // Create sprites
             for (var decor : game.grid().values()) {
@@ -184,9 +205,18 @@ public final class GameEngine {
             for (Monster monster : monsters){
                 sprites.add(new SpriteMonster(layer, monster));
             }
+
             game.gridUpdated();
+            stage.sizeToScene();
         }
         player.update(now);
+        player.getBombs().forEach(b -> {
+            long remainChanged = b.getTimer().remaining() / 1000;
+            b.getTimer().update(now);
+            if(remainChanged != b.getTimer().remaining() / 1000 && b.getGridNumber() == game.getGridNumber()) {
+                b.setModified(true);
+            }
+        });
         if (player.haveWon()){
             gameLoop.stop();
             showMessage("You win !", Color.GREEN);
@@ -201,8 +231,6 @@ public final class GameEngine {
         sprites.forEach(sprite -> {
             if (sprite.getGameObject().isDeleted()) {
                 game.grid().remove(sprite.getPosition());
-                cleanUpSprites.add(sprite);
-            } else if (game.gridNeedUpdate()) {
                 cleanUpSprites.add(sprite);
             }
         });

@@ -36,6 +36,9 @@ public class Door extends Decor implements Takeable, Walkable {
     }
 
     @Override
+    public void explode() {}
+
+    @Override
     public void takenBy(Player player) {
         player.take(this);
     }

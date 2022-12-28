@@ -1,19 +1,19 @@
-/*
- * Copyright (c) 2020. Laurent Réveillère
- */
-
 package fr.ubx.poo.ubomb.go.decor.bonus;
 
 import fr.ubx.poo.ubomb.game.Position;
 import fr.ubx.poo.ubomb.go.character.Player;
 
-public class Key extends Bonus {
-    public Key(Position position) {
+public class BombNumberModifier extends Bonus {
+
+    private int modifier;
+
+    public BombNumberModifier(Position position, int modifier) {
         super(position);
+        this.modifier = modifier;
     }
 
-    @Override
-    public void explode() {
+    public int getModifier() {
+        return modifier;
     }
 
     @Override
