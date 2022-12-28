@@ -142,7 +142,7 @@ monsterInvisibilityTime | 1000 |
 La clé `player` est obligatoire et sa valeur représente les coordonnées (`i` et `j`) du joueur sur le premier niveau. Le fichier contient des clés de la forme `levelX` ou `X` représente un numéro de niveau compris entre 1 et la valeur de la clé `levels`. La valeur associée à un niveau est une chaine de caractère encodant le niveau avec ou sans compression (RLE) en fonction de la variable `compression`.
 Modifier le code dans la classe `GameLauncher` pour que le monde du jeu puisse être chargé depuis un fichier. 
 
-## Gestion des portes :heavy_division_sign:
+## Gestion des portes :heavy_check_mark:
 
 Lorsque le joueur arrive sur la case d’une porte ouverte, il passe
 automatiquement au niveau correspondant à cette porte (niveau supérieur
@@ -153,7 +153,7 @@ l’inventaire. Chaque clé peut ouvrir indifféremment n’importe quelle
 porte fermée. Une fois qu'une porte est ouverte, elle le reste pour toute la partie du jeu.
 
 
-## Gestion des bonus et malus :heavy_division_sign:
+## Gestion des bonus et malus :heavy_check_mark:
 
 Le joueur ramasse automatiquement un bonus lorsqu'il marche sur la case qui le contient. Les monstres peuvent marcher sur les cases des bonus, mais ne peuvent pas les ramasser. Il existe 5 bonus différents :
 
@@ -169,7 +169,7 @@ Bonus | Effet
 
  Les caisses doivent pouvoir être déplacées par le joueur si rien ne gêne dans le sens de la poussée. Le joueur ne peut déplacer qu'une seule caisse à la fois. Si un bonus ou un monstre se trouve dans la direction de déplacement d’une caisse, la caisse reste bloquée. Le joueur ne peut pas déplacer deux caisses à la fois. Vous pouvez représenter les caisses comme des éléments de décor. Dans ce cas, déplacer une caisse revient à la supprimer et en créer une nouvelle aux bonnes coordonnées.
 
-## Gestion des bombes :mag_right:
+## Gestion des bombes :heavy_check_mark:
 
 Lorsque le joueur presse la touche `[ESPACE]`, il dépose une bombe sur
 la case sur laquelle il se trouve, déclenchant une explosion au bout de
