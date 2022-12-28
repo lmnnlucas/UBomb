@@ -72,6 +72,24 @@ public class Player extends GameObject implements Movable, TakeVisitor {
         }
     }
 
+    @Override
+    public void take(BombRangeModifier bombRangeModifier) {
+        this.bombRange += bombRangeModifier.getRangeModifier();
+        if(bombRange < 1) {
+            bombRange = 1;
+        }
+        bombRangeModifier.remove();
+    }
+
+    @Override
+    public void take(BombNumberModifier bombNumberModifier) {
+        this.bombBag += bombNumberModifier.getModifier();
+        if(bombBag < 1) {
+            bombBag = 1;
+        }
+        bombNumberModifier.remove();
+    }
+
     /**
      * Effectue le déplacement du joueur dans la direction donnée.
      * Si le joueur marche sur un bonus, le bonus est récupéré

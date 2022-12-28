@@ -36,7 +36,6 @@ public final class GameEngine {
     private final Game game;
     private final Player player;
     private final ArrayList<Monster> monsters;
-    private final ArrayList<Bomb> bombs;
     private final List<Sprite> sprites = new LinkedList<>();
     private final Set<Sprite> cleanUpSprites = new HashSet<>();
     private final Stage stage;
@@ -49,7 +48,6 @@ public final class GameEngine {
         this.game = game;
         this.player = game.player();
         this.monsters = game.monster();
-        this.bombs = new ArrayList<>();
         initialize();
         buildAndSetGameLoop();
     }
@@ -68,6 +66,7 @@ public final class GameEngine {
         stage.setScene(scene);
         stage.setResizable(true);
         stage.sizeToScene();
+        stage.hide();
         stage.show();
 
         input = new Input(scene);
@@ -111,6 +110,7 @@ public final class GameEngine {
         for(int i = 0; i < player.getBombs().size(); i++) {
             Bomb b = player.getBombs().get(i);
             if(!b.getTimer().isRunning()) {
+                player.getBombs().remove(i);
                 animateExplosion(b.getPosition(),b.getPosition());
                 b.explode();
             }
@@ -136,11 +136,6 @@ public final class GameEngine {
         if(player.isBombPlaced()) {
             sprites.add(new SpriteBomb(layer,(Bomb)game.grid().get(player.getPosition())));
             player.bombIsRendered();
-        } else {
-            player.getBombs().forEach(b -> {
-                b.getTimer().update(now);
-                b.setModified(true);
-            });
         }
         // Create a new Bomb is needed
     }
@@ -209,6 +204,13 @@ public final class GameEngine {
             game.gridUpdated();
         }
         player.update(now);
+        player.getBombs().forEach(b -> {
+            long remainChanged = b.getTimer().remaining() / 1000;
+            b.getTimer().update(now);
+            if(remainChanged != b.getTimer().remaining() / 1000 && b.getGridNumber() == game.getGridNumber()) {
+                b.setModified(true);
+            }
+        });
         if (player.haveWon()){
             gameLoop.stop();
             showMessage("You win !", Color.GREEN);

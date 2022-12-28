@@ -7,7 +7,7 @@ import fr.ubx.poo.ubomb.go.Takeable;
 
 public class Bomb extends Decor implements Takeable {
     private Timer timer;
-
+    private int gridNumber;
     private int range;
 
     public Bomb(Game game, Position position) {
@@ -15,10 +15,15 @@ public class Bomb extends Decor implements Takeable {
         timer = new Timer(3000);
         timer.start();
         range = game.player().getBombRange();
+        gridNumber = game.getGridNumber();
     }
 
     public Timer getTimer() {
         return timer;
+    }
+
+    public int getGridNumber() {
+        return gridNumber;
     }
 
     @Override

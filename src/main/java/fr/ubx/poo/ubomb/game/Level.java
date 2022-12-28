@@ -48,16 +48,16 @@ public class Level implements Grid {
                         elements.put(position, new Princess(position));
                         break;
                     case BombRangeDec:
-                        elements.put(position,new BombRangeDec(position));
+                        elements.put(position,new BombRangeModifier(position,-1));
                         break;
                     case BombRangeInc:
-                        elements.put(position,new BombRangeInc(position));
+                        elements.put(position,new BombRangeModifier(position, 1));
                         break;
                     case BombNumberDec:
-                        elements.put(position,new BombNumberDec(position));
+                        elements.put(position,new BombNumberModifier(position,-1));
                         break;
                     case BombNumberInc:
-                        elements.put(position,new BombNumberInc(position));
+                        elements.put(position,new BombNumberModifier(position,1));
                         break;
                     case DoorNextOpened:
                         elements.put(position,new Door(position,false,1));

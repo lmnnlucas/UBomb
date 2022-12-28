@@ -64,13 +64,16 @@ public class Game {
     }
 
     public void updateGridForNewLevel() {
-        System.out.println("level switch");
         grid = levels.get(gridNumber-1);
         player.setPosition(grid.values().stream()
                 .filter(v -> v instanceof Door && (((Door) v).getLevelModifier() == -1))
                 .map(v -> v.getPosition())
                 .findFirst()
                 .orElse(configuration.playerPosition()));
+    }
+
+    public int getGridNumber() {
+        return gridNumber;
     }
 
     public boolean gridNeedUpdate() {
