@@ -109,10 +109,15 @@ public final class GameEngine {
     private void checkExplosions() {
         for(int i = 0; i < player.getBombs().size(); i++) {
             Bomb b = player.getBombs().get(i);
-            if(!b.getTimer().isRunning()) {
+            if(!b.getTimer().isRunning() || b.isBombOverlapped()) {
                 player.getBombs().remove(i);
-                animateExplosion(b.getPosition(),b.getPosition());
                 b.explode();
+                if(b.getGridNumber() == game.getGridNumber()) {
+                    for (Position p : b.getExplosionBounds()) {
+                        animateExplosion(b.getPosition(), p);
+                    }
+                }
+                b.remove();
             }
         }
         // Check explosions of bombs
@@ -202,6 +207,7 @@ public final class GameEngine {
             }
 
             game.gridUpdated();
+            stage.sizeToScene();
         }
         player.update(now);
         player.getBombs().forEach(b -> {

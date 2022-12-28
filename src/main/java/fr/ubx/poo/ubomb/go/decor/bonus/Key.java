@@ -13,7 +13,8 @@ public class Key extends Bonus {
     }
 
     @Override
-    public void explode() {}
+    public void explode() {
+    }
 
     @Override
     public void takenBy(Player player) {

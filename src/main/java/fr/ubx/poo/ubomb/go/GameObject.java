@@ -49,6 +49,7 @@ public abstract class GameObject implements Walkable, Takeable {
     }
 
     public void explode() {
+        remove();
     }
 
     @Override
