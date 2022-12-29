@@ -1,5 +1,6 @@
 package fr.ubx.poo.ubomb.game;
 
+import fr.ubx.poo.ubomb.go.character.Monster;
 import fr.ubx.poo.ubomb.go.decor.bonus.*;
 import fr.ubx.poo.ubomb.go.decor.*;
 import fr.ubx.poo.ubomb.go.decor.door.Door;
@@ -68,6 +69,7 @@ public class Level implements Grid {
                         elements.put(position, new Door(position,false,-1));
                         break;
                     case Monster:
+                        elements.put(position, new Monster(position));
                         break;
                     case Empty: break;
                     default:

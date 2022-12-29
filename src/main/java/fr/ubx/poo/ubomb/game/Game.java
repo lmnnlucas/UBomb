@@ -28,8 +28,8 @@ public class Game {
         this.levels.add(grid);
         monsters = new ArrayList<>();
         player = new Player(this, configuration.playerPosition());
-        monsters.add(new Monster(this, new Position(2,2)));
-        monsters.add(new Monster(this, new Position(2,3)));
+        monsters.add(new Monster(new Position(2,2)));
+        monsters.add(new Monster(new Position(2,3)));
     }
 
     public Game(Configuration configuration, List<Grid> levels) {

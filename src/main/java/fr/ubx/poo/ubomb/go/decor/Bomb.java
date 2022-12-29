@@ -13,8 +13,7 @@ public class Bomb extends Decor implements Walkable {
     private Timer timer;
     private int gridNumber;
     private int range;
-
-    private boolean bombOverlap;
+    private boolean detonated; // Prevent overflow issue in case of concurrency
 
     private ArrayList<Position> explosionBounds;
 
@@ -25,7 +24,7 @@ public class Bomb extends Decor implements Walkable {
         range = game.player().getBombRange();
         gridNumber = game.getGridNumber();
         explosionBounds = new ArrayList<>();
-        bombOverlap = false;
+        detonated = false;
     }
 
     public Timer getTimer() {
@@ -38,10 +37,6 @@ public class Bomb extends Decor implements Walkable {
 
     public ArrayList<Position> getExplosionBounds() {
         return explosionBounds;
-    }
-
-    public boolean isBombOverlapped() {
-        return bombOverlap;
     }
 
     /**
@@ -77,14 +72,17 @@ public class Bomb extends Decor implements Walkable {
 
     @Override
     public void explode() {
-        if(!timer.isRunning() || bombOverlap) {
+        if(!detonated) {
+            detonated = true;
             for (Direction d : Direction.values()) {
                 explosionBounds.add(propagateExplosion(d));
             }
             game.player().postExplosionTreatment(this);
-        } else {
-            bombOverlap = true;
         }
+    }
+
+    public boolean hasDetonated() {
+        return detonated;
     }
 
     @Override

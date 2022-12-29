@@ -109,9 +109,19 @@ public final class GameEngine {
     private void checkExplosions() {
         for(int i = 0; i < player.getBombs().size(); i++) {
             Bomb b = player.getBombs().get(i);
-            if(!b.getTimer().isRunning() || b.isBombOverlapped()) {
+            if (b.hasDetonated()) { // Overlapped detonation
                 player.getBombs().remove(i);
+                if(b.getGridNumber() == game.getGridNumber()) {
+                    for (Position p : b.getExplosionBounds()) {
+                        animateExplosion(b.getPosition(), p);
+                    }
+                }
+                b.remove();
+            }
+            if(!b.getTimer().isRunning()) { // Manual detonation
                 b.explode();
+                // Duplicated to prevent frame skip
+                player.getBombs().remove(i);
                 if(b.getGridNumber() == game.getGridNumber()) {
                     for (Position p : b.getExplosionBounds()) {
                         animateExplosion(b.getPosition(), p);

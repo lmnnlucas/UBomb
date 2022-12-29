@@ -158,7 +158,6 @@ public class Player extends GameObject implements Movable, TakeVisitor {
     }
 
     public void postExplosionTreatment(Bomb bomb) {
-        bombs.remove(bomb);
         bombBag += 1;
     }
 
