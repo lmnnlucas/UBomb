@@ -4,6 +4,7 @@
 
 package fr.ubx.poo.ubomb.go.character;
 
+import fr.ubx.poo.ubomb.engine.Timer;
 import fr.ubx.poo.ubomb.game.Direction;
 import fr.ubx.poo.ubomb.game.Game;
 import fr.ubx.poo.ubomb.game.Position;
@@ -31,6 +32,8 @@ public class Player extends GameObject implements Movable, TakeVisitor {
     private boolean bombPlaced;
     private boolean haveWon = false;
     private ArrayList<Bomb> bombs;
+    private Timer invincibilityTimer;
+
     public Player(Game game, Position position) {
         super(game, position);
         this.direction = Direction.DOWN;
@@ -41,7 +44,7 @@ public class Player extends GameObject implements Movable, TakeVisitor {
     }
     @Override
     public void take(Monster monster) {
-        this.lives--;
+        healthRemovalHandler();
         monster.remove();
     }
     @Override
@@ -88,6 +91,18 @@ public class Player extends GameObject implements Movable, TakeVisitor {
             bombBag = 1;
         }
         bombNumberModifier.remove();
+    }
+
+    public Timer getInvincibilityTimer() {
+        return invincibilityTimer;
+    }
+
+    private void healthRemovalHandler() {
+        if(invincibilityTimer == null) {
+            invincibilityTimer = new Timer(game.configuration().playerInvisibilityTime());
+            invincibilityTimer.start();
+            lives -= 1;
+        }
     }
 
     /**
@@ -197,11 +212,19 @@ public class Player extends GameObject implements Movable, TakeVisitor {
             }
         }
         moveRequested = false;
+
+        if (invincibilityTimer != null && !invincibilityTimer.isRunning()) {
+            invincibilityTimer = null;
+            setModified(true);
+        } else if(invincibilityTimer != null) {
+            invincibilityTimer.update(now);
+            setModified(true);
+        }
     }
 
     @Override
     public void explode() {
-        lives -= 1;
+        healthRemovalHandler();
     }
 
     public boolean haveWon(){
