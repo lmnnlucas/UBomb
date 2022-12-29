@@ -71,6 +71,8 @@ public class StatusBar {
 
     public void update(Game game) {
         Player player = game.player();
+        level.getChildren().remove(0);
+        level.getChildren().add(new ImageView(ImageResourceFactory.digit(game.getGridNumber()+1).getImage()));
         lives.setText(Integer.toString(player.getLives()));
         bombRange.setText(Integer.toString(player.getBombRange()));
         availableBombs.setText(Integer.toString(player.getBombBag()));

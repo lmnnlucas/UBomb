@@ -30,9 +30,9 @@ public class GameLauncher {
                     new Position(config.getProperty("player")),
                     3,
                     Integer.parseInt(config.getProperty("playerLives")),
-                    Integer.parseInt(config.getProperty("playerInvisibilityTime")),
+                    Integer.parseInt(config.getProperty("playerInvincibilityTime")),
                     Integer.parseInt(config.getProperty("monsterVelocity")),
-                    Integer.parseInt(config.getProperty("monsterInvisibilityTime")));
+                    Integer.parseInt(config.getProperty("monsterInvincibilityTime")));
             int nbLevel = Integer.parseInt(config.getProperty("levels"));
             ArrayList<Grid> levels = new ArrayList<>();
             if(Boolean.parseBoolean(config.getProperty("compression"))){

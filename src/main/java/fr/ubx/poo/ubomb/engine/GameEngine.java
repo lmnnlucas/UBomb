@@ -207,7 +207,6 @@ public final class GameEngine {
             }
 
             game.gridUpdated();
-            stage.sizeToScene();
         }
         player.update(now);
         player.getBombs().forEach(b -> {
