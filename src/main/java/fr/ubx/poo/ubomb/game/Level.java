@@ -16,7 +16,6 @@ public class Level implements Grid {
 
     private final MapLevel entities;
 
-
     private final Map<Position, Decor> elements = new HashMap<>();
 
     public Level(MapLevel entities) {

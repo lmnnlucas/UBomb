@@ -18,7 +18,7 @@ public class MapLevelFileRLE implements MapRepo {
                 gridString.append(string.charAt(i));
             } else if (!Character.isDigit(string.charAt(i)) && Character.isDigit(string.charAt(i + 1))) {
                 int numberOfTheChar = Character.getNumericValue(string.charAt(i + 1));
-                for (int c = 0; c <= numberOfTheChar; c++) {
+                for (int c = 0; c < numberOfTheChar; c++) {
                     gridString.append(string.charAt(i));
                 }
             } else if (!Character.isDigit(string.charAt(i))) {

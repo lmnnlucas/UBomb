@@ -99,7 +99,7 @@ public class Player extends GameObject implements Movable, TakeVisitor {
 
     private void healthRemovalHandler() {
         if(invincibilityTimer == null) {
-            invincibilityTimer = new Timer(game.configuration().playerInvisibilityTime());
+            invincibilityTimer = new Timer(game.configuration().playerInvincibilityTime());
             invincibilityTimer.start();
             lives -= 1;
         }
