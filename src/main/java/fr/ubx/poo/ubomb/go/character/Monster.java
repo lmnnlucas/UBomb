@@ -26,6 +26,11 @@ public class Monster extends GameObject implements Movable {
     }
 
     @Override
+    public void explode() {
+
+    }
+
+    @Override
     public boolean walkableBy(Player player) {
         return super.walkableBy(player);
     }
