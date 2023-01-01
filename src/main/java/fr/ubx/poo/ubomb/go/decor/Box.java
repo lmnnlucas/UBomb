@@ -6,6 +6,7 @@ import fr.ubx.poo.ubomb.game.Position;
 import fr.ubx.poo.ubomb.go.GameObject;
 import fr.ubx.poo.ubomb.go.Movable;
 import fr.ubx.poo.ubomb.go.Takeable;
+import fr.ubx.poo.ubomb.go.character.Monster;
 import fr.ubx.poo.ubomb.go.character.Player;
 
 public class Box extends Decor implements Movable, Takeable {
@@ -23,7 +24,7 @@ public class Box extends Decor implements Movable, Takeable {
     @Override
     public boolean canMove(Direction direction) {
         Position nextPos = direction.nextPosition(getPosition());
-        if (nextPos.x() > game.grid().width() - 1 || (nextPos.x() < 0) || (nextPos.y() > game.grid().height() - 1) || (nextPos.y() < 0)) {
+        if (!game.grid().inside(nextPos)) {
             return false;
         }
         GameObject next = game.grid().get(nextPos);

@@ -1,10 +1,12 @@
 package fr.ubx.poo.ubomb.game;
 
+import fr.ubx.poo.ubomb.go.character.Monster;
 import fr.ubx.poo.ubomb.go.decor.bonus.*;
 import fr.ubx.poo.ubomb.go.decor.*;
 import fr.ubx.poo.ubomb.go.decor.door.Door;
 import fr.ubx.poo.ubomb.launcher.Entity;
 import fr.ubx.poo.ubomb.launcher.MapLevel;
+import javafx.geometry.Pos;
 
 import java.util.*;
 
@@ -15,13 +17,14 @@ public class Level implements Grid {
     private final int height;
 
     private final MapLevel entities;
-
+    private final ArrayList<Position> monsters;
     private final Map<Position, Decor> elements = new HashMap<>();
 
     public Level(MapLevel entities) {
         this.entities = entities;
         this.width = entities.width();
         this.height = entities.height();
+        this.monsters = new ArrayList<>();
 
         for (int i = 0; i < width; i++)
             for (int j = 0; j < height; j++) {
@@ -68,6 +71,7 @@ public class Level implements Grid {
                         elements.put(position, new Door(position,false,-1));
                         break;
                     case Monster:
+                        monsters.add(position);
                         break;
                     case Empty: break;
                     default:
@@ -101,7 +105,7 @@ public class Level implements Grid {
 
     @Override
     public boolean inside(Position position) {
-        return true;
+        return !(position.x() > width-1 || position.x() < 0 || position.y() > height-1 || position.y() < 0);
     }
 
     @Override
@@ -110,6 +114,11 @@ public class Level implements Grid {
             throw new IllegalArgumentException("Illegal Position");
         if (decor != null)
             elements.put(position, decor);
+    }
+
+    @Override
+    public ArrayList<Position> getMonstersPositions() {
+        return monsters;
     }
 
 

@@ -3,6 +3,7 @@ package fr.ubx.poo.ubomb.game;
 import fr.ubx.poo.ubomb.go.GameObject;
 import fr.ubx.poo.ubomb.go.character.Monster;
 import fr.ubx.poo.ubomb.go.character.Player;
+import fr.ubx.poo.ubomb.go.decor.Decor;
 import fr.ubx.poo.ubomb.go.decor.door.Door;
 
 import java.util.ArrayList;
@@ -18,6 +19,8 @@ public class Game {
     private int gridNumber;
     private boolean gridNeedUpdate;
 
+    private int lastGridNumberChange;
+
     public Game(Configuration configuration, Grid grid) {
         this.configuration = configuration;
         this.grid = grid;
@@ -26,8 +29,7 @@ public class Game {
         this.levels.add(grid);
         monsters = new ArrayList<>();
         player = new Player(this, configuration.playerPosition());
-        monsters.add(new Monster(this, new Position(2,2)));
-        monsters.add(new Monster(this, new Position(2,3)));
+        setupMonsters();
     }
 
     public Game(Configuration configuration, List<Grid> levels) {
@@ -37,6 +39,17 @@ public class Game {
         this.levels = new ArrayList<>(levels);
         player = new Player(this, configuration.playerPosition());
         monsters = new ArrayList<>();
+        setupMonsters();
+    }
+
+    private void setupMonsters() {
+        for (int i = 0; i < levels.size(); i++) {
+            for (Position mp : levels.get(i).getMonstersPositions()) {
+                Monster monster = new Monster(this,mp);
+                monster.setup(i);
+                monsters.add(monster);
+            }
+        }
     }
 
     public Configuration configuration() {
@@ -49,7 +62,7 @@ public class Game {
         if (player().getPosition().equals(position))
             gos.add(player);
         for (Monster monster : monsters) {
-            if (monster.getPosition().equals(position))
+            if (monster.getPosition().equals(position) && isOnSameGrid(monster.getGridNumber()))
                 gos.add(monster);
         }
         if (grid.get(position) != null)
@@ -59,15 +72,26 @@ public class Game {
 
     public ArrayList<Monster> monster() { return this.monsters; }
 
+    /**
+     * Trigger the level change logic by notifying the GameEngine that the grid will change,
+     * the grid modifier (-1 or +1) is stored in lastGridNumberChange to retrieve the door by which the player
+     * has entered the level.
+     *
+     * @param levelModifier The grid number change (-1 or +1)
+     */
     public void changeLevel(int levelModifier) {
         gridNeedUpdate = true;
         gridNumber += levelModifier;
+        lastGridNumberChange = levelModifier;
     }
 
+    /**
+     * Update the current grid and set the player position to the door that has the opposite modifier on the next level
+     */
     public void updateGridForNewLevel() {
         grid = levels.get(gridNumber);
         player.setPosition(grid.values().stream()
-                .filter(v -> v instanceof Door && (((Door) v).getLevelModifier() == -1))
+                .filter(v -> v instanceof Door && (((Door) v).getLevelModifier() == -lastGridNumberChange))
                 .map(v -> v.getPosition())
                 .findFirst()
                 .orElse(configuration.playerPosition()));
@@ -95,5 +119,9 @@ public class Game {
 
     public Player player() {
         return this.player;
+    }
+
+    public boolean isOnSameGrid(int nbGrid) {
+        return gridNumber == nbGrid;
     }
 }

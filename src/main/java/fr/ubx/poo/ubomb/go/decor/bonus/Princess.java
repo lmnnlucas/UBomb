@@ -12,4 +12,7 @@ public class Princess extends Bonus {
     public void takenBy(Player player) {
         player.take(this);
     }
+
+    @Override
+    public void explode() {}
 }

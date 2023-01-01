@@ -21,18 +21,16 @@ import java.util.List;
 /**
  * The type Player.
  */
-public class Player extends GameObject implements Movable, TakeVisitor {
+public class Player extends Character implements Movable, TakeVisitor {
 
     private Direction direction;
     private boolean moveRequested = false;
-    private int lives;
     private int keys;
     private int bombRange;
     private int bombBag;
     private boolean bombPlaced;
     private boolean haveWon = false;
     private ArrayList<Bomb> bombs;
-    private Timer invincibilityTimer;
 
     public Player(Game game, Position position) {
         super(game, position);
@@ -42,11 +40,7 @@ public class Player extends GameObject implements Movable, TakeVisitor {
         this.bombBag = 1;
         this.bombs = new ArrayList<>();
     }
-    @Override
-    public void take(Monster monster) {
-        healthRemovalHandler();
-        monster.remove();
-    }
+
     @Override
     public void take(Key key) {
         keys++;
@@ -91,18 +85,6 @@ public class Player extends GameObject implements Movable, TakeVisitor {
             bombBag = 1;
         }
         bombNumberModifier.remove();
-    }
-
-    public Timer getInvincibilityTimer() {
-        return invincibilityTimer;
-    }
-
-    private void healthRemovalHandler() {
-        if(invincibilityTimer == null) {
-            invincibilityTimer = new Timer(game.configuration().playerInvincibilityTime());
-            invincibilityTimer.start();
-            lives -= 1;
-        }
     }
 
     /**
@@ -158,7 +140,6 @@ public class Player extends GameObject implements Movable, TakeVisitor {
     }
 
     public void postExplosionTreatment(Bomb bomb) {
-        bombs.remove(bomb);
         bombBag += 1;
     }
 
@@ -179,8 +160,7 @@ public class Player extends GameObject implements Movable, TakeVisitor {
         Position nextPos = direction.nextPosition(getPosition());
         GameObject next = game.grid().get(nextPos);
 
-        // On vérifie que le joueur ne sorte pas des limites du niveau
-        if (nextPos.x() > game.grid().width() - 1 || (nextPos.x() < 0) || (nextPos.y() > game.grid().height() - 1) || (nextPos.y() < 0)) {
+        if (!game.grid().inside(nextPos)) {
             return false;
         }
 
@@ -205,26 +185,20 @@ public class Player extends GameObject implements Movable, TakeVisitor {
         }
     }
 
+    @Override
     public void update(long now) {
+        super.update(now);
         if (moveRequested) {
             if (canMove(direction)) {
                 doMove(direction);
             }
         }
         moveRequested = false;
-
-        if (invincibilityTimer != null && !invincibilityTimer.isRunning()) {
-            invincibilityTimer = null;
-            setModified(true);
-        } else if(invincibilityTimer != null) {
-            invincibilityTimer.update(now);
-            setModified(true);
-        }
     }
 
     @Override
     public void explode() {
-        healthRemovalHandler();
+        damageHandler(game.configuration().playerInvincibilityTime());
     }
 
     public boolean haveWon(){
@@ -232,5 +206,10 @@ public class Player extends GameObject implements Movable, TakeVisitor {
     }
     public Game getGame() {
         return game;
+    }
+
+    @Override
+    public void damage() {
+        damageHandler(game.configuration().playerInvincibilityTime());
     }
 }

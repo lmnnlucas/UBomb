@@ -5,6 +5,7 @@
 package fr.ubx.poo.ubomb.view;
 
 import fr.ubx.poo.ubomb.go.GameObject;
+import fr.ubx.poo.ubomb.go.character.Monster;
 import fr.ubx.poo.ubomb.go.decor.bonus.*;
 import fr.ubx.poo.ubomb.go.decor.*;
 import fr.ubx.poo.ubomb.go.decor.door.Door;
@@ -40,6 +41,8 @@ public final class SpriteFactory {
             return new SpriteDoor(layer, (Door)gameObject);
         if(gameObject instanceof Bomb)
             return new SpriteBomb(layer, (Bomb)gameObject);
+        if(gameObject instanceof Monster)
+            return new SpriteMonster(layer, (Monster) gameObject);
         throw new RuntimeException("Unsupported sprite for decor " + gameObject);
     }
 }
