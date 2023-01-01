@@ -7,6 +7,7 @@ package fr.ubx.poo.ubomb.engine;
 import fr.ubx.poo.ubomb.game.Direction;
 import fr.ubx.poo.ubomb.game.Game;
 import fr.ubx.poo.ubomb.game.Position;
+import fr.ubx.poo.ubomb.go.GameObject;
 import fr.ubx.poo.ubomb.go.character.Monster;
 import fr.ubx.poo.ubomb.go.character.Player;
 import fr.ubx.poo.ubomb.go.decor.Bomb;
@@ -82,7 +83,9 @@ public final class GameEngine {
         sprites.add(new SpritePlayer(layer, player));
 
         for (Monster monster : monsters){
-            sprites.add(new SpriteMonster(layer, monster));
+            if(monster.getGridNumber() == game.getGridNumber()) {
+                sprites.add(new SpriteMonster(layer, monster));
+            }
         }
     }
 
@@ -156,6 +159,12 @@ public final class GameEngine {
     }
 
     private void checkCollision(long now) {
+        List<GameObject> collided = game.getGameObjects(player.getPosition());
+        List<Monster> monsters = collided.stream().filter(c -> game.monster().contains(c)).map(c -> (Monster)c).toList();
+        if(!monsters.isEmpty()) {
+            monsters.forEach(m -> m.damage());
+            game.player().damage();
+        }
         // Check a collision between a monster and the player
     }
 
@@ -214,11 +223,13 @@ public final class GameEngine {
 
             for (Monster monster : monsters){
                 sprites.add(new SpriteMonster(layer, monster));
+                monster.setModified(true);
             }
 
             game.gridUpdated();
         }
         player.update(now);
+        game.monster().forEach(m -> m.update(now));
         player.getBombs().forEach(b -> {
             long remainChanged = b.getTimer().remaining() / 1000;
             b.getTimer().update(now);

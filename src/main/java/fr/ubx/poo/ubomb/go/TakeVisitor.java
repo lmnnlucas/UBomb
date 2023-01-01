@@ -13,8 +13,6 @@ public interface TakeVisitor {
 
     default void take(Princess princess) {}
 
-    default void take(Monster monster) {}
-
     default void take(Door door) {}
 
     default void take(BombRangeModifier bombRangeModifier) {}
