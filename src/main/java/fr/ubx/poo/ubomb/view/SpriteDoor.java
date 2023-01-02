@@ -4,9 +4,7 @@
 
 package fr.ubx.poo.ubomb.view;
 
-import fr.ubx.poo.ubomb.go.character.Player;
 import fr.ubx.poo.ubomb.go.decor.door.Door;
-import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
 
 public class SpriteDoor extends Sprite {

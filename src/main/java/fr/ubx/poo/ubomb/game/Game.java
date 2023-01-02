@@ -90,11 +90,6 @@ public class Game {
      */
     public void updateGridForNewLevel() {
         grid = levels.get(gridNumber);
-        player.setPosition(grid.values().stream()
-                .filter(v -> v instanceof Door && (((Door) v).getLevelModifier() == -lastGridNumberChange))
-                .map(v -> v.getPosition())
-                .findFirst()
-                .orElse(configuration.playerPosition()));
     }
 
     public int getGridNumber() {
@@ -107,6 +102,11 @@ public class Game {
 
     public void gridUpdated() {
         this.gridNeedUpdate = false;
+        player.setPosition(grid.values().stream()
+                .filter(v -> v instanceof Door && (((Door) v).getLevelModifier() == -lastGridNumberChange))
+                .map(v -> v.getPosition())
+                .findFirst()
+                .orElse(configuration.playerPosition()));
     }
 
     public Grid getGrid(int level) {
