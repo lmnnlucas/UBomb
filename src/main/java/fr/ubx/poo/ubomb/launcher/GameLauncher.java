@@ -23,16 +23,40 @@ public class GameLauncher {
     public static Game load(File file) {
         Properties config = new Properties();
         Game game = null;
+        int playerLives = 5;
+        int playerInvincibilityTime = 4000;
+        int monsterVelocity = 5;
+        int monsterInvincibilityTime = 1000;
         try {
             Reader in = new FileReader(file);
             config.load(in);
+            try {
+                playerLives = Integer.parseInt(config.getProperty("playerLives"));
+            } catch (IllegalArgumentException | NullPointerException e) {
+                System.out.println("playerLives not found, using default value");
+            }
+            try {
+                playerInvincibilityTime = Integer.parseInt(config.getProperty("playerInvincibilityTime"));
+            } catch (IllegalArgumentException | NullPointerException e) {
+                System.out.println("playerInvincibilityTime not found, using default value");
+            }
+            try {
+                monsterVelocity = Integer.parseInt(config.getProperty("monsterVelocity"));
+            } catch (IllegalArgumentException | NullPointerException e) {
+                System.out.println("monsterVelocity not found, using default value");
+            }
+            try {
+                monsterInvincibilityTime = Integer.parseInt(config.getProperty("monsterInvincibilityTime"));
+            } catch (IllegalArgumentException | NullPointerException e) {
+                System.out.println("monsterInvincibilityTime not found, using default value");
+            }
             Configuration configuration = new Configuration(
                     new Position(config.getProperty("player")),
                     3,
-                    Integer.parseInt(config.getProperty("playerLives","1")),
-                    Integer.parseInt(config.getProperty("playerInvincibilityTime","1000")),
-                    Integer.parseInt(config.getProperty("monsterVelocity","100")),
-                    Integer.parseInt(config.getProperty("monsterInvincibilityTime","1000")));
+                    playerLives,
+                    playerInvincibilityTime,
+                    monsterVelocity,
+                    monsterInvincibilityTime);
             int nbLevel = Integer.parseInt(config.getProperty("levels"));
             ArrayList<Grid> levels = new ArrayList<>();
             if(Boolean.parseBoolean(config.getProperty("compression"))){
