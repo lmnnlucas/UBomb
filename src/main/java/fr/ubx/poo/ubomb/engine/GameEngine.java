@@ -209,24 +209,36 @@ public final class GameEngine {
 
 
     private void update(long now) {
-        if(game.gridNeedUpdate()) {
-            sprites.forEach(Sprite::remove);
+        if(game.gridNeedUpdate()) { // Level Change
             game.updateGridForNewLevel();
+
             // Create sprites
             for (var decor : game.grid().values()) {
                 sprites.add(SpriteFactory.create(layer, decor));
                 decor.setModified(true);
             }
-
-            sprites.add(new SpritePlayer(layer, player));
-            player.setModified(true);
+            game.gridUpdated();
+            sprites.add(new SpritePlayer(layer,game.player()));
 
             for (Monster monster : monsters){
                 sprites.add(new SpriteMonster(layer, monster));
                 monster.setModified(true);
             }
 
-            game.gridUpdated();
+            Group root = new Group();
+            int height = game.grid().height();
+            int width = game.grid().width();
+            int sceneWidth = width * ImageResource.size;
+            int sceneHeight = height * ImageResource.size;
+            Scene scene = new Scene(root, sceneWidth, sceneHeight + StatusBar.height);
+            scene.getStylesheets().add(getClass().getResource("/css/application.css").toExternalForm());
+
+            stage.setScene(scene);
+            stage.sizeToScene();
+
+            input = new Input(scene);
+            root.getChildren().add(layer);
+            statusBar = new StatusBar(root, sceneWidth, sceneHeight, game);
         }
         player.update(now);
         game.monster().forEach(m -> m.update(now));
@@ -252,6 +264,8 @@ public final class GameEngine {
             if (sprite.getGameObject().isDeleted()) {
                 game.grid().remove(sprite.getPosition());
                 cleanUpSprites.add(sprite);
+            } else if (game.gridNeedUpdate()) {
+                cleanUpSprites.addAll(sprites);
             }
         });
         cleanUpSprites.forEach(Sprite::remove);

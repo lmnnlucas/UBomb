@@ -87,13 +87,6 @@ public class Player extends Character implements Movable, TakeVisitor {
         bombNumberModifier.remove();
     }
 
-    /**
-     * Effectue le déplacement du joueur dans la direction donnée.
-     * Si le joueur marche sur un bonus, le bonus est récupéré
-     * Si le joueur touche un ennemi, il perd une vie
-     * @param direction La direction du déplacement demandé
-     * @see Bonus#takenBy(Player)
-     */
     public void doMove(Direction direction) {
 
         // This method is called only if the move is possible, do not check again
@@ -150,12 +143,7 @@ public class Player extends Character implements Movable, TakeVisitor {
         }
         moveRequested = true;
     }
-    /**
-     * Indique si le déplacement du joueur est possible.
-     *
-     * @param direction La direction du déplacement demandé
-     * @return True si le déplacement est possible, False sinon
-     */
+
     public final boolean canMove(Direction direction) {
         Position nextPos = direction.nextPosition(getPosition());
         GameObject next = game.grid().get(nextPos);
@@ -164,7 +152,6 @@ public class Player extends Character implements Movable, TakeVisitor {
             return false;
         }
 
-        // Vrai si le joueur se déplace sur une case vide ou un bonus;
         return next==null || next.walkableBy(this);
     }
 

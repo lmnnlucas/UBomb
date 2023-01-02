@@ -50,13 +50,12 @@ public class Bomb extends Decor implements Walkable {
         Position currentPosition = getPosition();
         Position previousValidPosition = getPosition();
         boolean boxEncountered = false;
-        for(int i = 0; i < range; i++) {
-            currentPosition = direction.nextPosition(currentPosition);
+        for(int i = 0; i <= range; i++) {
             if(game.grid().inside(currentPosition)) {
                 Decor currentEncounter = game.getGrid(gridNumber).get(currentPosition);
-                List<GameObject> gameObjects = game.getGameObjects(currentPosition);
+                List<GameObject> gameObjects = new ArrayList<>(game.getGameObjects(currentPosition).stream().filter(d -> !(d instanceof Decor)).toList());
                 if(!gameObjects.isEmpty()) { // Player or monster encountered
-                    if(gameObjects.contains(game.player()) && !game.isOnSameGrid(gridNumber)) {
+                    if(!game.isOnSameGrid(gridNumber)) { // Player is not on same grid
                         gameObjects.remove(game.player());
                     }
                     gameObjects.forEach(go -> go.explode());
@@ -74,13 +73,13 @@ public class Bomb extends Decor implements Walkable {
                     previousValidPosition = currentPosition;
                 } else { // Blocking tiles
                     currentEncounter.explode();
+                    previousValidPosition = currentPosition;
                     break;
                 }
-            } else {
-                return previousValidPosition;
+                currentPosition = direction.nextPosition(currentPosition);
             }
         }
-        return currentPosition;
+        return previousValidPosition;
     }
 
     @Override

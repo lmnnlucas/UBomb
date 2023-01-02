@@ -8,7 +8,6 @@ import fr.ubx.poo.ubomb.go.decor.Decor;
 
 public class Door extends Decor implements Takeable, Walkable {
     private boolean locked;
-
     private final int levelModifier;
 
     public Door(Position position, boolean isLocked, int levelModifier) {
